@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AikenGuard — Smart Contract Security for Cardano</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #0a0a0f;
+    color: #e0e0e0;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 3rem;
+    border-bottom: 1px solid #1a1a2e;
+    background: rgba(10,10,15,0.95);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo { font-size: 1.4rem; font-weight: 700; color: #2EFFB5; letter-spacing: -0.5px; }
+  .logo span { color: #fff; }
+  nav a { color: #aaa; text-decoration: none; margin-left: 2rem; font-size: 0.9rem; }
+  nav a:hover { color: #2EFFB5; }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .badge {
+    display: inline-block;
+    background: rgba(46,255,181,0.1);
+    color: #2EFFB5;
+    border: 1px solid rgba(46,255,181,0.3);
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: 1px;
+  }
+  h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 1.2rem;
+    background: linear-gradient(135deg, #fff 0%, #2EFFB5 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .subtitle {
+    font-size: 1.15rem;
+    color: #888;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+  .cta-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: #2EFFB5;
+    color: #0a0a0f;
+    padding: 0.85rem 2rem;
+    border-radius: 8px;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: opacity 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-secondary {
+    background: transparent;
+    color: #2EFFB5;
+    padding: 0.85rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.95rem;
+    border: 1px solid rgba(46,255,181,0.4);
+    transition: background 0.2s;
+  }
+  .btn-secondary:hover { background: rgba(46,255,181,0.08); }
+
+  /* STATS */
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    padding: 2rem;
+    border-top: 1px solid #1a1a2e;
+    border-bottom: 1px solid #1a1a2e;
+    margin: 2rem 0;
+  }
+  .stat { text-align: center; }
+  .stat-num { font-size: 2rem; font-weight: 800; color: #2EFFB5; }
+  .stat-label { font-size: 0.8rem; color: #666; margin-top: 0.2rem; }
+
+  /* SECTION */
+  section { max-width: 1000px; margin: 0 auto; padding: 4rem 2rem; }
+  h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem; }
+  h2 span { color: #2EFFB5; }
+
+  /* HOW IT WORKS */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .step {
+    background: #111118;
+    border: 1px solid #1a1a2e;
+    border-radius: 12px;
+    padding: 1.5rem;
+    position: relative;
+  }
+  .step-num {
+    width: 32px; height: 32px;
+    background: rgba(46,255,181,0.15);
+    color: #2EFFB5;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+  .step h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+  .step p { font-size: 0.85rem; color: #666; line-height: 1.6; }
+
+  /* PRICING */
+  .pricing {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .plan {
+    background: #111118;
+    border: 1px solid #1a1a2e;
+    border-radius: 12px;
+    padding: 2rem;
+    transition: border-color 0.2s;
+  }
+  .plan:hover { border-color: #2EFFB5; }
+  .plan.featured {
+    border-color: #2EFFB5;
+    background: linear-gradient(135deg, #111118 0%, #0d1f18 100%);
+  }
+  .plan-name { font-size: 0.85rem; color: #888; letter-spacing: 1px; text-transform: uppercase; }
+  .plan-price { font-size: 2.2rem; font-weight: 800; color: #2EFFB5; margin: 0.5rem 0; }
+  .plan-price span { font-size: 1rem; color: #888; }
+  .plan-desc { font-size: 0.85rem; color: #666; margin-bottom: 1.5rem; line-height: 1.6; }
+  .plan ul { list-style: none; }
+  .plan ul li { font-size: 0.85rem; color: #aaa; padding: 0.3rem 0; }
+  .plan ul li::before { content: "✓ "; color: #2EFFB5; }
+
+  /* AUDIT FORM */
+  .audit-box {
+    background: #111118;
+    border: 1px solid #1a1a2e;
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin-top: 2rem;
+    text-align: center;
+  }
+  .audit-box p { color: #888; font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.7; }
+  .ada-address {
+    background: #0a0a0f;
+    border: 1px solid #2EFFB5;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    font-family: monospace;
+    font-size: 0.8rem;
+    color: #2EFFB5;
+    word-break: break-all;
+    margin: 1rem 0;
+    cursor: pointer;
+  }
+  .ada-address:hover { background: rgba(46,255,181,0.05); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid #1a1a2e;
+    padding: 2rem;
+    text-align: center;
+    color: #444;
+    font-size: 0.8rem;
+  }
+  footer a { color: #2EFFB5; text-decoration: none; }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 2rem; }
+    .stats { gap: 2rem; flex-wrap: wrap; }
+    nav { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">🛡️ Aiken<span>Guard</span></div>
+  <div>
+    <a href="#how">How it works</a>
+    <a href="#pricing">Pricing</a>
+    <a href="https://github.com/KipepeoWallet/AikenGuard" target="_blank">GitHub</a>
+    <a href="#audit" class="btn-primary" style="padding:0.5rem 1.2rem;border-radius:6px;">Get Audit →</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="badge">⚡ CARDANO NATIVE · eUTxO SECURITY</div>
+  <h1>Secure Your Aiken<br>Smart Contracts</h1>
+  <p class="subtitle">
+    Automated security analysis for Aiken smart contracts on Cardano.<br>
+    Two analysis layers — static detectors + AI — in minutes, not weeks.
+  </p>
+  <div class="cta-group">
+    <a href="#audit" class="btn-primary">Audit My Contracts →</a>
+    <a href="https://github.com/KipepeoWallet/AikenGuard" class="btn-secondary">View on GitHub</a>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num">15</div>
+    <div class="stat-label">Security Detectors</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">63%</div>
+    <div class="stat-label">CTF Detection Rate</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">2</div>
+    <div class="stat-label">Analysis Layers</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">CIP-52</div>
+    <div class="stat-label">Compliant Reports</div>
+  </div>
+</div>
+
+<section id="how">
+  <h2>How it <span>works</span></h2>
+  <p style="color:#888;margin-bottom:0;">From upload to certified report in minutes.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Send your contracts</h3>
+      <p>Upload your .ak files and send 100–500 ADA to our wallet address.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Layer 1 — Static analysis</h3>
+      <p>15 detectors scan for eUTxO-specific vulnerabilities instantly.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Layer 2 — AI analysis</h3>
+      <p>Gemma 4 analyzes all contracts together for multi-contract risks.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h3>Certified report</h3>
+      <p>Receive your CIP-0052 compliant PDF report + GitHub badge.</p>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <h2>Simple <span>pricing</span> in ADA</h2>
+  <p style="color:#888;margin-bottom:0;">Pay natively in ADA. No credit card. No account needed.</p>
+  <div class="pricing">
+    <div class="plan">
+      <div class="plan-name">Starter</div>
+      <div class="plan-price">100 <span>ADA</span></div>
+      <div class="plan-desc">Static analysis for simple contracts. Results in minutes.</div>
+      <ul>
+        <li>Layer 1 static scan</li>
+        <li>15 security detectors</li>
+        <li>JSON report</li>
+        <li>Up to 3 validators</li>
+      </ul>
+    </div>
+    <div class="plan featured">
+      <div class="plan-name">Pro ⭐</div>
+      <div class="plan-price">250 <span>ADA</span></div>
+      <div class="plan-desc">Full analysis with AI. Recommended for mainnet deployment.</div>
+      <ul>
+        <li>Layer 1 + Layer 2 AI</li>
+        <li>Multi-contract analysis</li>
+        <li>PDF report CIP-0052</li>
+        <li>GitHub audit badge</li>
+      </ul>
+    </div>
+    <div class="plan">
+      <div class="plan-name">Certified</div>
+      <div class="plan-price">500 <span>ADA</span></div>
+      <div class="plan-desc">Full audit + on-chain NFT certification on Cardano.</div>
+      <ul>
+        <li>Everything in Pro</li>
+        <li>NFT certificate on-chain</li>
+        <li>Verifiable forever</li>
+        <li>Priority support</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="audit">
+  <h2>Get your <span>audit</span></h2>
+  <div class="audit-box">
+    <p>
+      Send your .ak files to <strong style="color:#fff;">audit@aikenguard.io</strong><br>
+      with your transaction hash as subject line.<br><br>
+      Then send your ADA payment to this address :
+    </p>
+    <div class="ada-address" onclick="navigator.clipboard.writeText(this.innerText)" title="Click to copy">
+      addr1qx3xa7e02hntguhplrl97ynp6l79pvkqkdcd2q4uwe3w2yn6z7pp6gdm3am8252g5rk2lp4a3ew9eryqss8te68n2x8qgmtg8l
+    </div>
+    <p style="font-size:0.8rem;color:#555;">
+      🔒 Your contracts are deleted after analysis · No data stored · OVH Canada
+    </p>
+    <a href="mailto:audit@aikenguard.io" class="btn-primary" style="display:inline-block;margin-top:1rem;">
+      Send contracts →
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p>
+    Built by <a href="https://github.com/KipepeoWallet">Kipepeo Wallet</a> · 
+    <a href="https://github.com/KipepeoWallet/AikenGuard">GitHub</a> · 
+    Validated on <a href="https://github.com/vacuumlabs/cardano-ctf">Vacuumlabs CTF</a>
+  </p>
+  <p style="margin-top:0.5rem;">© 2026 AikenGuard · OVH Beauharnois, Canada</p>
+</footer>
+
+</body>
+</html>
