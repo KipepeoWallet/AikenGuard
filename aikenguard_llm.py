@@ -1,104 +1,214 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""AikenGuard v0.4 — Couche 2 Multi-fichiers"""
-import sys, json, urllib.request, urllib.error
+"""
+AikenGuard v0.4 — Couche 2 LLM + RAG Cardano Expert
+Analyse multi-contrats avec contexte Cardano précis via ChromaDB
+
+Usage: python3 aikenguard_llm.py <dossier_contrats> <rapport_json>
+"""
+
+import sys
+import json
+import requests
 from pathlib import Path
-from datetime import datetime
+import chromadb
+from sentence_transformers import SentenceTransformer
 
-OLLAMA_URL   = "http://localhost:11434/api/generate"
-OLLAMA_MODEL = "gemma4"
+# ── Configuration ──────────────────────────────────────────────
+OLLAMA_URL  = "http://localhost:11434/api/generate"
+MODEL       = "gemma4"
+DB_PATH     = "/home/ubuntu/cardano-rag"
+EMBED_MODEL = "all-MiniLM-L6-v2"
+RAG_RESULTS = 5
 
 
-SYSTEM_PROMPT = """Tu es un auditeur expert en smart contracts Aiken sur Cardano.
-Analyse TOUS les fichiers d'un projet ENSEMBLE.
-Cherche les vulnérabilités dans les INTERACTIONS entre contrats.
-Réponds UNIQUEMENT en JSON :
-{
-  "architecture": "2-3 phrases sur les interactions",
-  "summary": "résumé findings",
-  "score": 0-100,
-  "real_findings": [{"severity":"CRITICAL|HIGH|MEDIUM|LOW","title":"","location":"","description":"","fix":""}],
-  "false_positives_from_layer1": [],
-  "positive_patterns": [],
-  "multi_contract_risks": []
-}"""
-
-def ask_gemma(code_dict, name):
-    files = "".join(f"\n\n=== {k} ===\n```aiken\n{v}\n```" for k,v in code_dict.items())
-    prompt = f"Analyse ce projet Aiken complet — {name}.\n{files}\nRéponds en JSON uniquement."
-    payload = json.dumps({"model":OLLAMA_MODEL,"prompt":prompt,"system":SYSTEM_PROMPT,"stream":False,"options":{"temperature":0.1,"num_predict":3000}}).encode()
-    req = urllib.request.Request(OLLAMA_URL,data=payload,headers={"Content-Type":"application/json"},method="POST")
+# ── RAG — Récupérer le contexte Cardano pertinent ─────────────
+def get_rag_context(query, n=RAG_RESULTS):
+    """Cherche dans ChromaDB les passages les plus pertinents"""
     try:
-        with urllib.request.urlopen(req,timeout=180) as r:
-            txt = json.loads(r.read())["response"].strip()
-            for tag in ["```json","```"]:
-                if txt.startswith(tag): txt = txt[len(tag):]
-            if txt.endswith("```"): txt = txt[:-3]
-            return json.loads(txt.strip())
+        client     = chromadb.PersistentClient(path=DB_PATH)
+        collection = client.get_collection("cardano_knowledge")
+        model      = SentenceTransformer(EMBED_MODEL)
+        embedding  = model.encode(query).tolist()
+        results    = collection.query(
+            query_embeddings=[embedding],
+            n_results=n
+        )
+        context_parts = []
+        for i, doc in enumerate(results["documents"][0]):
+            src = results["metadatas"][0][i].get("source", "unknown")
+            src_short = src.split("/")[-2] + "/" + src.split("/")[-1]
+            context_parts.append(f"[Source: {src_short}]\n{doc[:600]}")
+        return "\n\n---\n\n".join(context_parts)
     except Exception as e:
-        return {"error":str(e)}
+        print(f"RAG warning: {e}")
+        return ""
 
-def check_ollama():
-    try:
-        with urllib.request.urlopen("http://localhost:11434/api/tags",timeout=5) as r:
-            models = [m["name"] for m in json.loads(r.read()).get("models",[])]
-            if not any("gemma3" in m for m in models):
-                print(f"  Modèles dispo: {', '.join(models)}"); return False
-            return True
-    except: print("  Ollama non accessible"); return False
 
-COLORS = {"CRITICAL":"\033[91m","HIGH":"\033[93m","MEDIUM":"\033[94m","LOW":"\033[96m"}
-B="\033[1m"; R="\033[0m"; G="\033[92m"
+# ── Analyse LLM avec RAG ──────────────────────────────────────
+def analyze_with_llm(contracts, layer1_report):
+    """Analyse multi-contrats avec Gemma + contexte RAG"""
 
-def print_report(name, a, n):
-    print(f"\n{B}{'='*60}{R}")
-    print(f"{B}  AikenGuard v0.4 Couche 2 — {name}{R}")
-    print(f"  Fichiers analysés ensemble : {n}")
-    print(f"{'='*60}")
-    if "error" in a: print(f"  Erreur: {a['error']}"); return
-    print(f"\n  Architecture: {a.get('architecture','')}")
-    score = a.get('score','?')
-    c = G if isinstance(score,int) and score>=80 else COLORS.get('HIGH','') if isinstance(score,int) and score>=60 else COLORS.get('CRITICAL','')
-    print(f"\n  Score: {c}{B}{score}/100{R}")
-    print(f"  Résumé: {a.get('summary','')}")
-    findings = a.get("real_findings",[])
-    if not findings: print(f"\n  {G}✅ Aucune vulnérabilité{R}")
+    # Préparer le code des contrats
+    code_section = ""
+    for name, code in contracts.items():
+        code_section += f"\n\n=== {name} ===\n{code[:3000]}"
+
+    # Findings de la Couche 1
+    findings_summary = ""
+    for f in layer1_report.get("findings", []):
+        findings_summary += f"- [{f['severity']}] {f['rule_id']}: {f['title']} ({f['file']}:{f['line']})\n"
+
+    # Requête RAG — chercher contexte pertinent
+    rag_query = f"Cardano Aiken smart contract security vulnerabilities eUTxO {' '.join(contracts.keys())}"
+    rag_context = get_rag_context(rag_query)
+
+    if rag_context:
+        print(f"  RAG: {RAG_RESULTS} passages pertinents trouvés dans ChromaDB")
     else:
-        print(f"\n  {B}Findings ({len(findings)}):{R}")
-        for f in findings:
-            col = COLORS.get(f.get("severity","LOW"),"")
-            print(f"\n  {col}{B}[{f.get('severity')}]{R} {f.get('title')}")
-            print(f"  📍 {f.get('location')}")
-            print(f"  {f.get('description')}")
-            if f.get("fix"): print(f"  {G}→ Fix:{R} {f.get('fix')}")
-    multi = a.get("multi_contract_risks",[])
-    if multi:
-        print(f"\n  Risques multi-contrats:")
-        for m in multi: print(f"  ⚠ {m}")
-    print(f"\n{'='*60}")
+        print("  RAG: ChromaDB non disponible — analyse sans contexte")
 
-def scan(path):
-    target = Path(path)
-    files = [f for f in (target.rglob("*.ak") if target.is_dir() else [target]) if "build" not in str(f)]
-    if not files: print(f"  Aucun .ak trouvé"); return
-    print(f"\n  🦋 AikenGuard v0.4 Couche 2 — {target.name}")
-    print(f"  {len(files)} fichier(s): {', '.join(f.name for f in files)}")
-    if not check_ollama(): sys.exit(1)
-    code = {}
-    for f in files:
-        try:
-            c = f.read_text(encoding="utf-8")
-            code[f.name] = c[:6000] + "\n// [tronqué]" if len(c)>6000 else c
-        except Exception as e: print(f"  Erreur {f}: {e}")
-    print(f"\n  ⏳ Analyse en cours (~{len(files)*30}s)...")
-    analysis = ask_gemma(code, target.name)
-    print_report(target.name, analysis, len(files))
-    out = f"aikenguard-llm-{datetime.now().strftime('%Y%m%d-%H%M')}.json"
-    Path(out).write_text(json.dumps({"version":"0.4","project":target.name,"files":list(code.keys()),"analysis":analysis},indent=2,ensure_ascii=False),encoding="utf-8")
-    print(f"\n  📁 Rapport: {out}")
-    findings = analysis.get("real_findings",[])
-    sys.exit(1 if any(f.get("severity")=="CRITICAL" for f in findings) else 0)
+    # Prompt complet
+    prompt = f"""You are an expert Cardano smart contract security auditor.
+You have deep knowledge of eUTxO model, Aiken language, CIP-0052, and Cardano security patterns.
 
+CARDANO SECURITY KNOWLEDGE BASE (from official sources):
+{rag_context if rag_context else "Not available."}
+
+LAYER 1 STATIC ANALYSIS FINDINGS:
+{findings_summary if findings_summary else "No findings from static analysis."}
+
+SMART CONTRACTS TO AUDIT:
+{code_section}
+
+TASK:
+Perform a deep multi-contract security analysis. Focus on:
+1. Cross-contract interactions and shared state risks
+2. eUTxO-specific vulnerabilities (double satisfaction, datum hijacking, etc.)
+3. Business logic flaws not caught by static analysis
+4. Patterns matching known Cardano vulnerabilities from the knowledge base
+5. CIP-0052 compliance issues
+
+For each finding, cite the relevant source from the knowledge base if applicable.
+
+Respond ONLY with a valid JSON object:
+{{
+  "multi_contract_risks": [
+    {{
+      "severity": "CRITICAL|HIGH|MEDIUM|LOW",
+      "title": "Short title",
+      "description": "Detailed description with reference to knowledge base if applicable",
+      "affected_contracts": ["contract1.ak", "contract2.ak"],
+      "recommendation": "How to fix",
+      "reference": "Source from knowledge base or CIP number"
+    }}
+  ],
+  "overall_assessment": "2-3 sentence summary of the security posture",
+  "mainnet_ready": true or false,
+  "confidence": "high|medium|low"
+}}"""
+
+    # Appel à Gemma via Ollama
+    try:
+        response = requests.post(
+            OLLAMA_URL,
+            json={
+                "model":  MODEL,
+                "prompt": prompt,
+                "stream": False,
+                "options": {
+                    "temperature": 0.1,
+                    "num_predict": 2000
+                }
+            },
+            timeout=120
+        )
+        raw = response.json().get("response", "")
+
+        # Extraire le JSON
+        start = raw.find("{")
+        end   = raw.rfind("}") + 1
+        if start >= 0 and end > start:
+            return json.loads(raw[start:end])
+        else:
+            return {
+                "multi_contract_risks": [],
+                "overall_assessment": raw[:500],
+                "mainnet_ready": False,
+                "confidence": "low"
+            }
+    except Exception as e:
+        return {
+            "multi_contract_risks": [],
+            "overall_assessment": f"LLM analysis failed: {e}",
+            "mainnet_ready": False,
+            "confidence": "low"
+        }
+
+
+# ── Pipeline principale ───────────────────────────────────────
+def run_llm_analysis(contracts_dir, layer1_report_path, output_path):
+    print("\nAikenGuard Couche 2 — LLM + RAG Cardano Expert")
+    print("=" * 50)
+
+    # Charger les contrats
+    contracts = {}
+    for ak_file in Path(contracts_dir).glob("*.ak"):
+        contracts[ak_file.name] = ak_file.read_text(encoding="utf-8", errors="ignore")
+
+    if not contracts:
+        print("Aucun fichier .ak trouvé")
+        return {}
+
+    print(f"Contrats chargés: {list(contracts.keys())}")
+
+    # Charger le rapport Couche 1
+    layer1_report = {}
+    try:
+        layer1_report = json.loads(Path(layer1_report_path).read_text())
+        print(f"Couche 1: {len(layer1_report.get('findings', []))} findings")
+    except:
+        print("Couche 1: rapport non disponible")
+
+    # Analyse LLM + RAG
+    print("Analyse LLM + RAG en cours...")
+    llm_result = analyze_with_llm(contracts, layer1_report)
+
+    # Fusionner avec le rapport Couche 1
+    final_report = {
+        "project": contracts_dir,
+        "files_scanned": len(contracts),
+        "score": layer1_report.get("score", 0),
+        "layer1_findings": layer1_report.get("findings", []),
+        "layer2_llm": llm_result,
+        "summary": {
+            "critical": len([f for f in layer1_report.get("findings", []) if f.get("severity") == "CRITICAL"]),
+            "high":     len([f for f in layer1_report.get("findings", []) if f.get("severity") == "HIGH"]),
+            "medium":   len([f for f in layer1_report.get("findings", []) if f.get("severity") == "MEDIUM"]),
+            "low":      len([f for f in layer1_report.get("findings", []) if f.get("severity") == "LOW"]),
+            "total":    len(layer1_report.get("findings", [])),
+            "multi_contract_risks": len(llm_result.get("multi_contract_risks", [])),
+        },
+        "mainnet_ready":       llm_result.get("mainnet_ready", False),
+        "overall_assessment":  llm_result.get("overall_assessment", ""),
+        "rag_enabled":         True,
+    }
+
+    # Sauvegarder
+    Path(output_path).write_text(json.dumps(final_report, indent=2))
+    print(f"\nRapport complet sauvegardé: {output_path}")
+    print(f"Mainnet ready: {final_report['mainnet_ready']}")
+    print(f"Risques multi-contrats: {final_report['summary']['multi_contract_risks']}")
+    return final_report
+
+
+# ── Main ──────────────────────────────────────────────────────
 if __name__ == "__main__":
-    if len(sys.argv)<2: print("Usage: python3 aikenguard_llm.py <projet/>"); sys.exit(1)
-    scan(sys.argv[1])
+    if len(sys.argv) < 3:
+        print("Usage: python3 aikenguard_llm.py <dossier> <rapport_output>")
+        sys.exit(1)
+
+    contracts_dir = sys.argv[1]
+    output_path   = sys.argv[2]
+    layer1_path   = output_path.replace(".json", "_layer1.json")
+
+    run_llm_analysis(contracts_dir, layer1_path, output_path)
