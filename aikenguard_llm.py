@@ -6,7 +6,8 @@ from pathlib import Path
 from datetime import datetime
 
 OLLAMA_URL   = "http://localhost:11434/api/generate"
-OLLAMA_MODEL = "gemma3:27b"
+OLLAMA_MODEL = "gemma4"
+
 
 SYSTEM_PROMPT = """Tu es un auditeur expert en smart contracts Aiken sur Cardano.
 Analyse TOUS les fichiers d'un projet ENSEMBLE.
