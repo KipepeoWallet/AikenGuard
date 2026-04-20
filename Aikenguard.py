@@ -1,3 +1,29 @@
+
+def check_ak016(content, filename):
+    findings = []
+    lines = content.split("\n")
+    has_datum_owner_check = False
+    has_external_verification = False
+    datum_owner_line = 0
+    for i, line in enumerate(lines, 1):
+        s = line.strip()
+        if "datum.owner" in s and ("list.has" in s or "extra_signatories" in s or "==" in s):
+            has_datum_owner_check = True
+            datum_owner_line = i
+        if "policy_id" in s or "reference_input" in s:
+            has_external_verification = True
+    if has_datum_owner_check and not has_external_verification:
+        findings.append({
+            "severity": "HIGH",
+            "rule_id": "AK-016",
+            "title": "Datum Owner Not Verified Against External Source",
+            "description": "datum.owner used for authorization without external verification.",
+            "file": filename,
+            "line": datum_owner_line,
+            "recommendation": "Verify owner against minting policy or reference input."
+        })
+    return findings
+
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
@@ -314,6 +340,21 @@ class AikenGuardScanner:
                 )
 
 
+
+        # AK-016
+        ak016_results = check_ak016(content, str(file_path))
+        for r in ak016_results:
+            self.report.findings.append(Finding(
+                severity=r["severity"],
+                rule_id=r["rule_id"],
+                title=r["title"],
+                description=r["description"],
+                file=r["file"],
+                line=r["line"],
+                code_snippet="",
+                recommendation=r["recommendation"],
+            ))
+
 SEVERITY_COLORS = {
     "CRITICAL": "\033[91m",
     "HIGH":     "\033[93m",
@@ -454,3 +495,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
