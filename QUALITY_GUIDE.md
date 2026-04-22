@@ -1,29 +1,29 @@
 # AikenGuard Quality Standards
-## Guide de qualité pour smart contracts Aiken sur Cardano
+## Quality guide for Aiken smart contracts on Cardano
 
-> Ce guide applique les standards officiels de l'équipe Aiken-lang et CIP-0052.
-> AikenGuard ne les invente pas — il les vérifie automatiquement.
-
----
-
-## Pourquoi la qualité du code est critique en smart contracts
-
-Un smart contract déployé sur Cardano est **immutable**. Tu ne peux pas corriger un bug après déploiement. La qualité du code n'est pas optionnelle — c'est une nécessité absolue.
-
-Un code de mauvaise qualité :
-- Est difficile à auditer → les auditeurs humains facturent plus cher
-- Cache des bugs logiques → exploitables par des attaquants
-- Est impossible à maintenir → problèmes lors des mises à jour
+> This guide applies the official standards from the Aiken-lang team and CIP-0052.
+> AikenGuard does not invent them — it verifies them automatically.
 
 ---
 
-## Les 5 règles de qualité AikenGuard
+## Why code quality is critical in smart contracts
 
-### AK-017 — Documentation obligatoire
+A smart contract deployed on Cardano is **immutable**. You cannot fix a bug after deployment. Code quality is not optional — it is an absolute necessity.
 
-**Pourquoi :** CIP-0052 stipule que chaque validator doit être documenté. Un auditeur humain ne peut pas valider ce qu'il ne comprend pas.
+Poor quality code:
+- Is difficult to audit → human auditors charge more
+- Hides logical bugs → exploitable by attackers
+- Is impossible to maintain → problems during updates
 
-**Mauvais :**
+---
+
+## The 5 AikenGuard quality rules
+
+### AK-017 — Mandatory documentation
+
+**Why:** CIP-0052 states that every validator must be documented. A human auditor cannot validate what they do not understand.
+
+**Bad:**
 ```aiken
 validator {
   fn spend(datum: Datum, redeemer: Redeemer, ctx: ScriptContext) -> Bool {
@@ -32,12 +32,12 @@ validator {
 }
 ```
 
-**Bon :**
+**Good:**
 ```aiken
-/// Validator de paiement escrow
-/// @param datum : contient l'adresse du bénéficiaire et le montant
-/// @param redeemer : Release (libérer) ou Refund (rembourser)
-/// @returns : True si la transaction est autorisée
+/// Escrow payment validator
+/// @param datum : contains the beneficiary address and amount
+/// @param redeemer : Release or Refund
+/// @returns : True if the transaction is authorized
 validator {
   fn spend(datum: Datum, redeemer: Redeemer, ctx: ScriptContext) -> Bool {
     // ...
@@ -47,36 +47,36 @@ validator {
 
 ---
 
-### AK-018 — Messages d'erreur explicites
+### AK-018 — Explicit error messages
 
-**Pourquoi :** Sans messages d'erreur, le debugging d'un contrat Aiken est un cauchemar. Les traces sont la seule fenêtre sur l'exécution on-chain.
+**Why:** Without error messages, debugging an Aiken contract is a nightmare. Traces are the only window into on-chain execution.
 
-**Mauvais :**
+**Bad:**
 ```aiken
 expect list.length(inputs) == 1
 expect Some(datum) = find_datum(...)
 ```
 
-**Bon :**
+**Good:**
 ```aiken
-expect list.length(inputs) == 1, @msg "Un seul input script attendu"
-expect Some(datum) = find_datum(...), @msg "Datum introuvable pour cet output"
+expect list.length(inputs) == 1, @msg "Only one script input expected"
+expect Some(datum) = find_datum(...), @msg "Datum not found for this output"
 ```
 
 ---
 
-### AK-019 — Noms de variables descriptifs
+### AK-019 — Descriptive variable names
 
-**Pourquoi :** Les smart contracts sont audités par des humains. Un code lisible réduit le temps d'audit et donc son coût.
+**Why:** Smart contracts are audited by humans. Readable code reduces audit time and therefore its cost.
 
-**Mauvais :**
+**Bad:**
 ```aiken
 let a = ctx.transaction.inputs
 let b = list.filter(a, fn(x) { ... })
 let c = list.length(b)
 ```
 
-**Bon :**
+**Good:**
 ```aiken
 let tx_inputs = ctx.transaction.inputs
 let script_inputs = list.filter(tx_inputs, fn(input) { ... })
@@ -85,22 +85,22 @@ let script_input_count = list.length(script_inputs)
 
 ---
 
-### AK-020 — Validators décomposés
+### AK-020 — Decomposed validators
 
-**Pourquoi :** Un validator avec 50+ lignes de logique mélangée est un red flag pour tout auditeur. La complexité cache les bugs.
+**Why:** A validator with 50+ lines of mixed logic is a red flag for any auditor. Complexity hides bugs.
 
-**Mauvais :**
+**Bad:**
 ```aiken
 validator {
   fn spend(datum, redeemer, ctx) -> Bool {
-    // 60 lignes de logique mélangée
-    // vérification auth + valeur + datum + time
-    // impossible à auditer proprement
+    // 60 lines of mixed logic
+    // auth + value + datum + time all together
+    // impossible to audit properly
   }
 }
 ```
 
-**Bon :**
+**Good:**
 ```aiken
 validator {
   fn spend(datum: Datum, redeemer: Redeemer, ctx: ScriptContext) -> Bool {
@@ -114,81 +114,79 @@ validator {
 }
 
 fn check_authorization(datum: Datum, ctx: ScriptContext) -> Bool {
-  // Uniquement la logique d'autorisation
+  // Authorization logic only
 }
 ```
 
 ---
 
-### AK-021 — Pattern match complet
+### AK-021 — Complete pattern matching
 
-**Pourquoi :** Un pattern match sans cas par défaut peut accepter des redeemers non prévus si l'enum évolue.
+**Why:** A pattern match without a default case may accept unexpected redeemers if the enum evolves.
 
-**Mauvais :**
+**Bad:**
 ```aiken
 when redeemer is {
   Claim -> check_claim(datum, ctx)
   AddTip -> check_tip(datum, ctx)
-  // Que se passe-t-il si un nouveau variant est ajouté ?
+  // What happens if a new variant is added?
 }
 ```
 
-**Bon :**
+**Good:**
 ```aiken
 when redeemer is {
   Claim -> check_claim(datum, ctx)
   AddTip -> check_tip(datum, ctx)
-  _ -> False // Rejeter explicitement tout cas non prévu
+  _ -> False // Explicitly reject any unplanned case
 }
 ```
 
 ---
 
-## Score de qualité AikenGuard
+## AikenGuard quality score
 
-AikenGuard calcule un score de qualité en plus du score de sécurité :
+| Rule   | Score impact | Category |
+|--------|-------------|----------|
+| AK-017 | -5 points   | Quality  |
+| AK-018 | -3 points   | Quality  |
+| AK-019 | -2 points   | Quality  |
+| AK-020 | -5 points   | Quality  |
+| AK-021 | -5 points   | Quality  |
 
-| Règle  | Impact score | Catégorie |
-|--------|-------------|-----------|
-| AK-017 | -5 points   | Qualité   |
-| AK-018 | -3 points   | Qualité   |
-| AK-019 | -2 points   | Qualité   |
-| AK-020 | -5 points   | Qualité   |
-| AK-021 | -5 points   | Qualité   |
-
-Un contrat avec **100/100** a passé les 16 règles de sécurité ET les 5 règles de qualité.
+A contract with **100/100** has passed all 16 security rules AND all 5 quality rules.
 
 ---
 
-## Checklist avant de soumettre votre audit
+## Checklist before submitting your audit
 
 ```
-Sécurité (AK-001 à AK-016) :
-☐ Pas de multiple satisfaction
-☐ Datums typés explicitement
-☐ Vérification du bénéficiaire
-☐ Contraintes temporelles correctes
-☐ Pas de trace() en production
+Security (AK-001 to AK-016):
+☐ No multiple satisfaction
+☐ Explicitly typed datums
+☐ Beneficiary verification
+☐ Correct time constraints
+☐ No trace() in production
 
-Qualité (AK-017 à AK-021) :
-☐ Validator documenté avec ///
-☐ expect avec messages d'erreur
-☐ Variables avec noms descriptifs
-☐ Logique décomposée en fonctions
-☐ Pattern match avec cas par défaut
+Quality (AK-017 to AK-021):
+☐ Validator documented with ///
+☐ expect with error messages
+☐ Variables with descriptive names
+☐ Logic decomposed into functions
+☐ Pattern match with default case
 ```
 
 ---
 
-## Sources et références
+## Sources and references
 
-Ces standards sont basés sur :
+These standards are based on:
 - [CIP-0052](https://github.com/cardano-foundation/CIPs/tree/master/CIP-0052) — Cardano Audit Best Practices
-- [Aiken Language Guide](https://aiken-lang.org/language-tour) — Documentation officielle
-- [Vacuumlabs CTF](https://github.com/vacuumlabs/cardano-ctf) — 26 vulnérabilités documentées
-- [Aikido Security](https://github.com/Bajuzjefe/Aikido-Security-Analysis-Platform) — 75 détecteurs
+- [Aiken Language Guide](https://aiken-lang.org/language-tour) — Official documentation
+- [Vacuumlabs CTF](https://github.com/vacuumlabs/cardano-ctf) — 26 documented vulnerabilities
+- [Aikido Security](https://github.com/Bajuzjefe/Aikido-Security-Analysis-Platform) — 75 detectors
 
 ---
 
-*Guide maintenu par AikenGuard — aikenguard.io*
-*Appliquant les standards de la communauté Cardano, pas les inventant.*
+*Guide maintained by AikenGuard — aikenguard.io*
+*Applying Cardano community standards, not inventing them.*

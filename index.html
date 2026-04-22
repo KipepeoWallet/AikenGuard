@@ -114,7 +114,7 @@
     
     
     <a href="https://github.com/KipepeoWallet/AikenGuard" target="_blank">GitHub</a>
-    <a href="https://github.com/KipepeoWallet/AikenGuard/blob/main/QUALITY_GUIDE.md" target="_blank" data-i18n="nav_quality">Quality Guide</a>
+    <a href="#" id="qualityGuideLink" target="_blank" data-i18n="nav_quality">Quality Guide</a>
     <div class="lang-sel">
       <button class="lang-btn active" onclick="setLang('en')">EN</button>
       <button class="lang-btn" onclick="setLang('fr')">FR</button>
@@ -376,6 +376,14 @@ let selectedADA = 179;
 let selectedFiles = [];
 
 function setLang(lang) {
+  // Mettre à jour le lien Quality Guide selon la langue
+  const qualityLinks = {
+    'en': 'https://github.com/KipepeoWallet/AikenGuard/blob/main/QUALITY_GUIDE.md',
+    'fr': 'https://github.com/KipepeoWallet/AikenGuard/blob/main/QUALITY_GUIDE_FR.md',
+    'es': 'https://github.com/KipepeoWallet/AikenGuard/blob/main/QUALITY_GUIDE_ES.md'
+  };
+  const qLink = document.getElementById('qualityGuideLink');
+  if (qLink) qLink.href = qualityLinks[lang] || qualityLinks['en'];
   currentLang = lang;
   const t = T[lang];
   document.querySelectorAll('[data-i18n]').forEach(el => {
