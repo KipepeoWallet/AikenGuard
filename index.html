@@ -6,199 +6,103 @@
 <title>AikenGuard — Smart Contract Security for Cardano</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  
-  body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background: #0a0a0f;
-    color: #e0e0e0;
-    min-height: 100vh;
-  }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0d0c09; color: #e8e0d0; min-height: 100vh; }
 
-  /* NAV */
-  nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.2rem 3rem;
-    border-bottom: 1px solid #1a1a2e;
-    background: rgba(10,10,15,0.95);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .logo { font-size: 1.4rem; font-weight: 700; color: #2EFFB5; letter-spacing: -0.5px; }
-  .logo span { color: #fff; }
-  nav a { color: #aaa; text-decoration: none; margin-left: 2rem; font-size: 0.9rem; }
-  nav a:hover { color: #2EFFB5; }
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 3rem; border-bottom: 1px solid #2a2416; background: rgba(13,12,9,0.97); position: sticky; top: 0; z-index: 100; }
+  .logo { font-size: 1.85rem; font-weight: 700; color: #f5a623; letter-spacing: -0.5px; }
+  .logo span { color: #e8e0d0; }
+  .nav-right { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  nav a { color: #9a8e78; text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+  nav a:hover { color: #f5a623; }
+  .nav-audit { background: #f5a623; color: #0d0c09 !important; padding: 0.5rem 1.2rem; border-radius: 6px; font-weight: 700; }
 
-  /* HERO */
-  .hero {
-    text-align: center;
-    padding: 6rem 2rem 4rem;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-  .badge {
-    display: inline-block;
-    background: rgba(46,255,181,0.1);
-    color: #2EFFB5;
-    border: 1px solid rgba(46,255,181,0.3);
-    padding: 0.3rem 1rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    margin-bottom: 1.5rem;
-    letter-spacing: 1px;
-  }
-  h1 {
-    font-size: 3rem;
-    font-weight: 800;
-    line-height: 1.15;
-    margin-bottom: 1.2rem;
-    background: linear-gradient(135deg, #fff 0%, #2EFFB5 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .subtitle {
-    font-size: 1.15rem;
-    color: #888;
-    line-height: 1.7;
-    margin-bottom: 2.5rem;
-  }
-  .cta-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-  .btn-primary {
-    background: #2EFFB5;
-    color: #0a0a0f;
-    padding: 0.85rem 2rem;
-    border-radius: 8px;
-    font-weight: 700;
-    text-decoration: none;
-    font-size: 0.95rem;
-    transition: opacity 0.2s;
-  }
-  .btn-primary:hover { opacity: 0.85; }
-  .btn-secondary {
-    background: transparent;
-    color: #2EFFB5;
-    padding: 0.85rem 2rem;
-    border-radius: 8px;
-    font-weight: 600;
-    text-decoration: none;
-    font-size: 0.95rem;
-    border: 1px solid rgba(46,255,181,0.4);
-    transition: background 0.2s;
-  }
-  .btn-secondary:hover { background: rgba(46,255,181,0.08); }
+  .lang-sel { display: flex; gap: 4px; }
+  .lang-btn { background: transparent; border: 1.5px solid #3a3020; color: #6a6050; padding: 6px 14px; border-radius: 6px; font-size: 0.82rem; font-weight: 700; cursor: pointer; letter-spacing: 0.5px; transition: all 0.2s; }
+  .lang-btn:hover { background: rgba(245,166,35,0.1); border-color: #f5a623; color: #f5a623; } .lang-btn.active { background: #f5a623; border-color: #f5a623; color: #0d0c09; }
 
-  /* STATS */
-  .stats {
-    display: flex;
-    justify-content: center;
-    gap: 4rem;
-    padding: 2rem;
-    border-top: 1px solid #1a1a2e;
-    border-bottom: 1px solid #1a1a2e;
-    margin: 2rem 0;
-  }
-  .stat { text-align: center; }
-  .stat-num { font-size: 2rem; font-weight: 800; color: #2EFFB5; }
-  .stat-label { font-size: 0.8rem; color: #666; margin-top: 0.2rem; }
+  .hero { text-align: center; padding: 5rem 2rem 3.5rem; max-width: 760px; margin: 0 auto; }
+  .badge { display: inline-block; background: rgba(245,166,35,0.12); color: #f5a623; border: 1px solid rgba(245,166,35,0.3); padding: 0.3rem 1rem; border-radius: 20px; font-size: 0.78rem; margin-bottom: 1.5rem; letter-spacing: 1px; text-transform: uppercase; }
+  h1 { font-size: 2.8rem; font-weight: 800; line-height: 1.15; margin-bottom: 1rem; color: #f0e8d8; }
+  h1 span { color: #f5a623; }
+  .hero-sub { font-size: 1.1rem; color: #8a7e6a; line-height: 1.75; margin-bottom: 1.5rem; }
+  .fear-line { font-size: 0.92rem; color: #c44b2b; background: rgba(196,75,43,0.1); border: 1px solid rgba(196,75,43,0.25); padding: 0.6rem 1.2rem; border-radius: 8px; display: inline-block; }
 
-  /* SECTION */
-  section { max-width: 1000px; margin: 0 auto; padding: 4rem 2rem; }
-  h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem; }
-  h2 span { color: #2EFFB5; }
+  .mission { background: rgba(245,166,35,0.07); border-left: 3px solid #f5a623; border-radius: 0 12px 12px 0; padding: 1.5rem 2rem; margin: 2rem 3rem; }
+  .mission h2 { font-size: 1rem; color: #f5a623; margin-bottom: 0.6rem; font-weight: 700; letter-spacing: 0.5px; }
+  .mission p { font-size: 0.92rem; color: #9a8e78; line-height: 1.75; }
 
-  /* HOW IT WORKS */
-  .steps {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
-  }
-  .step {
-    background: #111118;
-    border: 1px solid #1a1a2e;
-    border-radius: 12px;
-    padding: 1.5rem;
-    position: relative;
-  }
-  .step-num {
-    width: 32px; height: 32px;
-    background: rgba(46,255,181,0.15);
-    color: #2EFFB5;
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700; font-size: 0.9rem;
-    margin-bottom: 1rem;
-  }
-  .step h3 { font-size: 1rem; margin-bottom: 0.5rem; }
-  .step p { font-size: 0.85rem; color: #666; line-height: 1.6; }
+  .stats { display: flex; justify-content: center; border-top: 1px solid #2a2416; border-bottom: 1px solid #2a2416; }
+  .stat { flex: 1; text-align: center; padding: 1.5rem 1rem; border-right: 1px solid #2a2416; }
+  .stat:last-child { border-right: none; }
+  .stat-num { font-size: 1.9rem; font-weight: 800; color: #f5a623; }
+  .stat-label { font-size: 0.75rem; color: #6a6050; margin-top: 0.2rem; text-transform: uppercase; letter-spacing: 0.5px; }
 
-  /* PRICING */
-  .pricing {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
-  }
-  .plan {
-    background: #111118;
-    border: 1px solid #1a1a2e;
-    border-radius: 12px;
-    padding: 2rem;
-    transition: border-color 0.2s;
-  }
-  .plan:hover { border-color: #2EFFB5; }
-  .plan.featured {
-    border-color: #2EFFB5;
-    background: linear-gradient(135deg, #111118 0%, #0d1f18 100%);
-  }
-  .plan-name { font-size: 0.85rem; color: #888; letter-spacing: 1px; text-transform: uppercase; }
-  .plan-price { font-size: 2.2rem; font-weight: 800; color: #2EFFB5; margin: 0.5rem 0; }
-  .plan-price span { font-size: 1rem; color: #888; }
-  .plan-desc { font-size: 0.85rem; color: #666; margin-bottom: 1.5rem; line-height: 1.6; }
+  section { max-width: 1000px; margin: 0 auto; padding: 3rem 2rem; }
+  .section-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.4rem; color: #f0e8d8; }
+  .section-sub { font-size: 0.9rem; color: #6a6050; margin-bottom: 1.75rem; }
+
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+  .step { background: #131109; border: 1px solid #2a2416; border-radius: 12px; padding: 1.25rem; }
+  .step-num { width: 30px; height: 30px; background: rgba(245,166,35,0.15); color: #f5a623; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; margin-bottom: 0.85rem; }
+  .step h3 { font-size: 0.92rem; margin-bottom: 0.4rem; color: #e8e0d0; }
+  .step p { font-size: 0.8rem; color: #6a6050; line-height: 1.6; }
+
+  .pricing { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .plan { background: #131109; border: 1px solid #2a2416; border-radius: 12px; padding: 1.5rem; transition: border-color 0.2s; }
+  .plan:hover { border-color: #f5a623; }
+  .plan.featured { border-color: #f5a623; background: linear-gradient(135deg, #131109 0%, #1a1508 100%); }
+  .plan-name { font-size: 0.75rem; color: #6a6050; letter-spacing: 1px; text-transform: uppercase; }
+  .plan-price { font-size: 2rem; font-weight: 800; color: #f5a623; margin: 0.4rem 0; }
+  .plan-price span { font-size: 0.9rem; color: #6a6050; }
+  .plan-desc { font-size: 0.8rem; color: #6a6050; margin-bottom: 1rem; line-height: 1.6; }
   .plan ul { list-style: none; }
-  .plan ul li { font-size: 0.85rem; color: #aaa; padding: 0.3rem 0; }
-  .plan ul li::before { content: "✓ "; color: #2EFFB5; }
+  .plan ul li { font-size: 0.8rem; color: #9a8e78; padding: 0.25rem 0 0.25rem 1rem; position: relative; }
+  .plan ul li::before { content: "✓"; position: absolute; left: 0; color: #f5a623; }
+  .pop-badge { display: inline-block; background: rgba(245,166,35,0.15); color: #f5a623; font-size: 0.7rem; padding: 2px 8px; border-radius: 4px; margin-bottom: 0.5rem; }
 
-  /* AUDIT FORM */
-  .audit-box {
-    background: #111118;
-    border: 1px solid #1a1a2e;
-    border-radius: 16px;
-    padding: 2.5rem;
-    margin-top: 2rem;
-    text-align: center;
-  }
-  .audit-box p { color: #888; font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.7; }
-  .ada-address {
-    background: #0a0a0f;
-    border: 1px solid #2EFFB5;
-    border-radius: 8px;
-    padding: 1rem 1.5rem;
-    font-family: monospace;
-    font-size: 0.8rem;
-    color: #2EFFB5;
-    word-break: break-all;
-    margin: 1rem 0;
-    cursor: pointer;
-  }
-  .ada-address:hover { background: rgba(46,255,181,0.05); }
+  .audit-wrap { max-width: 680px; margin: 0 auto; padding: 0 2rem 4rem; }
+  .audit-box { background: #131109; border: 1px solid #2a2416; border-radius: 16px; padding: 2rem; }
+  .audit-box h2 { font-size: 1.4rem; font-weight: 700; color: #f0e8d8; margin-bottom: 0.4rem; }
+  .audit-box > p { font-size: 0.88rem; color: #6a6050; margin-bottom: 1.5rem; line-height: 1.7; }
+  .form-label { font-size: 0.78rem; color: #f5a623; font-weight: 600; margin-bottom: 0.4rem; display: block; letter-spacing: 0.3px; }
+  .form-group { margin-bottom: 1.25rem; }
+  input[type="email"] { width: 100%; background: #0d0c09; border: 1px solid #2a2416; border-radius: 8px; padding: 0.75rem 1rem; color: #e8e0d0; font-size: 0.92rem; outline: none; transition: border-color 0.2s; }
+  input[type="email"]:focus { border-color: #f5a623; }
+  .drop-zone { border: 2px dashed #2a2416; border-radius: 10px; padding: 2rem; text-align: center; cursor: pointer; transition: all 0.2s; background: #0d0c09; }
+  .drop-zone:hover, .drop-zone.over { border-color: #f5a623; background: rgba(245,166,35,0.04); }
+  .drop-zone .icon { font-size: 2rem; margin-bottom: 0.4rem; }
+  .drop-zone strong { font-size: 0.9rem; color: #e8e0d0; }
+  .drop-zone p { font-size: 0.8rem; color: #6a6050; margin-top: 0.3rem; }
+  .file-list { margin-top: 0.75rem; }
+  .file-item { display: flex; align-items: center; gap: 0.5rem; background: rgba(245,166,35,0.08); border-radius: 6px; padding: 0.4rem 0.75rem; margin-top: 0.4rem; font-size: 0.8rem; color: #f5a623; }
+  .plan-sel { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
+  .plan-opt { background: #0d0c09; border: 1px solid #2a2416; border-radius: 8px; padding: 0.85rem; text-align: center; cursor: pointer; transition: all 0.2s; }
+  .plan-opt:hover { border-color: #f5a623; }
+  .plan-opt.active { border-color: #f5a623; background: rgba(245,166,35,0.08); }
+  .plan-opt .p { font-size: 1.1rem; font-weight: 700; color: #f5a623; }
+  .plan-opt .n { font-size: 0.72rem; color: #6a6050; margin-top: 2px; }
+  .ada-box { background: #0d0c09; border: 1px solid rgba(245,166,35,0.35); border-radius: 10px; padding: 1.25rem; margin-top: 0.5rem; }
+  .ada-box h3 { font-size: 0.88rem; color: #f5a623; margin-bottom: 0.6rem; }
+  .ada-addr { font-family: monospace; font-size: 0.72rem; color: #f5a623; word-break: break-all; background: #131109; padding: 0.75rem; border-radius: 6px; cursor: pointer; transition: background 0.2s; }
+  .ada-addr:hover { background: #1a1508; }
+  .ada-hint { font-size: 0.72rem; color: #4a4030; margin-top: 0.5rem; }
+  .trust-badges { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1rem 0; }
+  .trust-badge { display: flex; align-items: center; gap: 0.35rem; font-size: 0.75rem; color: #6a6050; }
+  .submit-btn { width: 100%; padding: 0.9rem; font-size: 1rem; font-weight: 700; border-radius: 10px; background: #f5a623; color: #0d0c09; border: none; cursor: pointer; margin-top: 1.25rem; transition: opacity 0.2s; }
+  .submit-btn:hover { opacity: 0.88; }
+  .status { display: none; margin-top: 1rem; padding: 1rem 1.25rem; border-radius: 10px; font-size: 0.88rem; }
+  .status.ok { background: rgba(245,166,35,0.1); border: 1px solid rgba(245,166,35,0.3); color: #f5a623; }
+  .status.err { background: rgba(196,75,43,0.1); border: 1px solid rgba(196,75,43,0.3); color: #e06040; }
 
-  /* FOOTER */
-  footer {
-    border-top: 1px solid #1a1a2e;
-    padding: 2rem;
-    text-align: center;
-    color: #444;
-    font-size: 0.8rem;
-  }
-  footer a { color: #2EFFB5; text-decoration: none; }
+  footer { border-top: 1px solid #2a2416; padding: 2rem; text-align: center; color: #4a4030; font-size: 0.78rem; }
+  footer a { color: #f5a623; text-decoration: none; }
 
-  @media (max-width: 600px) {
-    h1 { font-size: 2rem; }
-    .stats { gap: 2rem; flex-wrap: wrap; }
+  @media (max-width: 680px) {
+    h1 { font-size: 1.9rem; }
+    .steps, .pricing { grid-template-columns: 1fr; }
+    .stats { flex-wrap: wrap; }
     nav { padding: 1rem; }
+    .mission { margin: 1.5rem 1rem; }
   }
 </style>
 </head>
@@ -206,141 +110,357 @@
 
 <nav>
   <div class="logo">🛡️ Aiken<span>Guard</span></div>
-  <div>
-    <a href="#how">How it works</a>
-    <a href="#pricing">Pricing</a>
+  <div class="nav-right">
+    
+    
     <a href="https://github.com/KipepeoWallet/AikenGuard" target="_blank">GitHub</a>
-    <a href="#audit" class="btn-primary" style="padding:0.5rem 1.2rem;border-radius:6px;">Get Audit →</a>
+    <a href="https://github.com/KipepeoWallet/AikenGuard/blob/main/QUALITY_GUIDE.md" target="_blank" data-i18n="nav_quality">Quality Guide</a>
+    <div class="lang-sel">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" onclick="setLang('es')">ES</button>
+    </div>
+    <a href="#audit" class="nav-audit" data-i18n="nav_cta">Get audit →</a>
   </div>
 </nav>
 
 <div class="hero">
-  <div class="badge">⚡ CARDANO NATIVE · eUTxO SECURITY</div>
-  <h1>Secure Your Aiken<br>Smart Contracts</h1>
-  <p class="subtitle">
-    Automated security analysis for Aiken smart contracts on Cardano.<br>
-    Two analysis layers — static detectors + AI — in minutes, not weeks.
-  </p>
-  <div class="cta-group">
-    <a href="#audit" class="btn-primary">Audit My Contracts →</a>
-    <a href="https://github.com/KipepeoWallet/AikenGuard" class="btn-secondary">View on GitHub</a>
-  </div>
+  <div class="badge" data-i18n="badge">⚡ Cardano native · eUTxO security</div>
+  <h1><span data-i18n="hero_title_1">Firestarter for the</span><br><span style="color:#f5a623" data-i18n="hero_title_2">Cardano community</span></h1>
+  <p class="hero-sub" data-i18n="hero_sub">We help Cardano developers write better contracts before going to a human auditor. When every developer cleans up as many flaws as possible, the whole community becomes stronger and more secure.</p>
+  <div class="fear-line" data-i18n="fear">⚠️ A single undetected vulnerability can lock funds permanently on-chain.</div>
+</div>
+
+<div class="mission">
+  <h2 data-i18n="mission_title">Our mission</h2>
+  <p data-i18n="mission_text">AikenGuard is a simple, fast and powerful tool that automatically analyzes your Aiken smart contracts — so you arrive at your human audit cleaner, smarter, and ready to deploy with confidence. We believe security should be accessible to every Cardano developer, not just those with $15,000 for a full manual audit.</p>
 </div>
 
 <div class="stats">
-  <div class="stat">
-    <div class="stat-num">15</div>
-    <div class="stat-label">Security Detectors</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">63%</div>
-    <div class="stat-label">CTF Detection Rate</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">2</div>
-    <div class="stat-label">Analysis Layers</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">CIP-52</div>
-    <div class="stat-label">Compliant Reports</div>
-  </div>
+  <div class="stat"><div class="stat-num">21</div><div class="stat-label" data-i18n="stat1">Security & quality detectors</div></div>
+  <div class="stat"><div class="stat-num">100%</div><div class="stat-label" data-i18n="stat2">CTF detection rate</div></div>
+  <div class="stat"><div class="stat-num">2</div><div class="stat-label" data-i18n="stat3">Analysis layers</div></div>
+  <div class="stat"><div class="stat-num">CIP-52</div><div class="stat-label" data-i18n="stat4">Compliant reports</div></div>
 </div>
 
 <section id="how">
-  <h2>How it <span>works</span></h2>
-  <p style="color:#888;margin-bottom:0;">From upload to certified report in minutes.</p>
+  <div class="section-title" data-i18n="how_title">How it works</div>
+  <div class="section-sub" data-i18n="how_sub">From upload to certified report in under 30 minutes.</div>
   <div class="steps">
-    <div class="step">
-      <div class="step-num">1</div>
-      <h3>Send your contracts</h3>
-      <p>Upload your .ak files and send 100–500 ADA to our wallet address.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <h3>Layer 1 — Static analysis</h3>
-      <p>15 detectors scan for eUTxO-specific vulnerabilities instantly.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <h3>Layer 2 — AI analysis</h3>
-      <p>Gemma 4 analyzes all contracts together for multi-contract risks.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">4</div>
-      <h3>Certified report</h3>
-      <p>Receive your CIP-0052 compliant PDF report + GitHub badge.</p>
-    </div>
+    <div class="step"><div class="step-num">1</div><h3 data-i18n="step1_title">Upload contracts</h3><p data-i18n="step1_text">Upload your .ak files directly on this page. No email, no account needed.</p></div>
+    <div class="step"><div class="step-num">2</div><h3 data-i18n="step2_title">Static analysis</h3><p data-i18n="step2_text">15 detectors scan for eUTxO-specific vulnerabilities instantly.</p></div>
+    <div class="step"><div class="step-num">3</div><h3 data-i18n="step3_title">AI deep analysis</h3><p data-i18n="step3_text">Multi-contract risk detection across all your validators together.</p></div>
+    <div class="step"><div class="step-num">4</div><h3 data-i18n="step4_title">PDF report</h3><p data-i18n="step4_text">Receive your CIP-0052 compliant report by email. Ready for mainnet.</p></div>
   </div>
 </section>
 
 <section id="pricing">
-  <h2>Simple <span>pricing</span> in ADA</h2>
-  <p style="color:#888;margin-bottom:0;">Pay natively in ADA. No credit card. No account needed.</p>
+  <div class="section-title" data-i18n="pricing_title">Simple pricing in ADA</div>
+  <div class="section-sub" data-i18n="pricing_sub">Pay natively in ADA. No credit card. No account. No surprises.</div>
   <div class="pricing">
     <div class="plan">
-      <div class="plan-name">Starter</div>
-      <div class="plan-price">100 <span>ADA</span></div>
-      <div class="plan-desc">Static analysis for simple contracts. Results in minutes.</div>
+      <div class="plan-name" data-i18n="plan1_name">Starter</div>
+      <div class="plan-price">79 <span>ADA</span></div>
+      <div class="plan-desc" data-i18n="plan1_desc">Static analysis for simple contracts. Results in minutes.</div>
       <ul>
-        <li>Layer 1 static scan</li>
-        <li>15 security detectors</li>
-        <li>JSON report</li>
-        <li>Up to 3 validators</li>
+        <li data-i18n="plan1_f1">15 security detectors</li>
+        <li data-i18n="plan1_f2">JSON + PDF report</li>
+        <li data-i18n="plan1_f3">Up to 3 validators</li>
       </ul>
     </div>
     <div class="plan featured">
-      <div class="plan-name">Pro ⭐</div>
-      <div class="plan-price">250 <span>ADA</span></div>
-      <div class="plan-desc">Full analysis with AI. Recommended for mainnet deployment.</div>
+      <div class="pop-badge" data-i18n="popular">Most popular</div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-price">179 <span>ADA</span></div>
+      <div class="plan-desc" data-i18n="plan2_desc">Full AI analysis. Recommended before mainnet deployment.</div>
       <ul>
-        <li>Layer 1 + Layer 2 AI</li>
-        <li>Multi-contract analysis</li>
-        <li>PDF report CIP-0052</li>
-        <li>GitHub audit badge</li>
+        <li data-i18n="plan2_f1">Static + AI analysis</li>
+        <li data-i18n="plan2_f2">Multi-contract risks</li>
+        <li data-i18n="plan2_f3">CIP-0052 PDF report</li>
+        <li data-i18n="plan2_f4">GitHub audit badge</li>
       </ul>
     </div>
     <div class="plan">
-      <div class="plan-name">Certified</div>
-      <div class="plan-price">500 <span>ADA</span></div>
-      <div class="plan-desc">Full audit + on-chain NFT certification on Cardano.</div>
+      <div class="plan-name" data-i18n="plan3_name">Certified</div>
+      <div class="plan-price">279 <span>ADA</span></div>
+      <div class="plan-desc" data-i18n="plan3_desc">Full audit + on-chain NFT certification on Cardano.</div>
       <ul>
-        <li>Everything in Pro</li>
-        <li>NFT certificate on-chain</li>
-        <li>Verifiable forever</li>
-        <li>Priority support</li>
+        <li data-i18n="plan3_f1">Everything in Pro</li>
+        <li data-i18n="plan3_f2">NFT on-chain</li>
+        <li data-i18n="plan3_f3">Verifiable forever</li>
+        <li data-i18n="plan3_f4">Priority support</li>
       </ul>
     </div>
   </div>
 </section>
 
-<section id="audit">
-  <h2>Get your <span>audit</span></h2>
+<div class="audit-wrap" id="audit">
   <div class="audit-box">
-    <p>
-      Send your .ak files to <strong style="color:#fff;">audit@aikenguard.io</strong><br>
-      with your transaction hash as subject line.<br><br>
-      Then send your ADA payment to this address :
-    </p>
-    <div class="ada-address" onclick="navigator.clipboard.writeText(this.innerText)" title="Click to copy">
-      addr1_VOTRE_ADRESSE_WALLET_ADA_ICI
+    <h2 data-i18n="form_title">Secure my contracts now</h2>
+    <p data-i18n="form_sub">Upload your Aiken contracts, choose your plan, send ADA. Your PDF report arrives by email within 30 minutes.</p>
+
+    <div class="form-group">
+      <label class="form-label" data-i18n="form_email_label">📧 Your email — to receive the report</label>
+      <input type="email" id="clientEmail" data-i18n-placeholder="form_email_placeholder" placeholder="you@example.com" />
     </div>
-    <p style="font-size:0.8rem;color:#555;">
-      🔒 Your contracts are deleted after analysis · No data stored · OVH Canada
-    </p>
-    <a href="mailto:audit@aikenguard.io" class="btn-primary" style="display:inline-block;margin-top:1rem;">
-      Send contracts →
-    </a>
+
+    <div class="form-group">
+      <label class="form-label" data-i18n="form_file_label">📁 Upload your .ak files</label>
+      <div class="drop-zone" id="dropZone">
+        <div class="icon">🗂️</div>
+        <strong data-i18n="drop_title">Drop your .ak files here</strong>
+        <p data-i18n="drop_sub">or click to browse your files</p>
+        <input type="file" id="fileInput" multiple accept=".ak" style="display:none">
+      </div>
+      <div class="file-list" id="fileList"></div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" data-i18n="form_plan_label">🎯 Choose your plan</label>
+      <div class="plan-sel">
+        <div class="plan-opt" onclick="selectPlan(this,79)"><div class="p">79 ADA</div><div class="n">Starter</div></div>
+        <div class="plan-opt active" onclick="selectPlan(this,179)"><div class="p">179 ADA</div><div class="n">Pro</div></div>
+        <div class="plan-opt" onclick="selectPlan(this,279)"><div class="p">279 ADA</div><div class="n" data-i18n="plan3_name">Certified</div></div>
+      </div>
+    </div>
+
+    <div class="ada-box">
+      <h3><span data-i18n="send_label">Send</span> <span id="adaAmt">179</span> ADA <span data-i18n="send_to">to this address</span></h3>
+      <div class="ada-addr" onclick="copyAddr()" title="Click to copy">addr1qx3xa7e02hntguhplrl97ynp6l79pvkqkdcd2q4uwe3w2yn6z7pp6gdm3am8252g5rk2lp4a3ew9eryqss8te68n2x8qgmtg8l</div>
+      <p class="ada-hint" data-i18n="addr_hint">👆 Click to copy · Include your email in transaction metadata</p>
+    </div>
+
+    <div class="trust-badges">
+      <div class="trust-badge">🔒 <span data-i18n="trust1">Contracts deleted after analysis</span></div>
+      <div class="trust-badge">⚡ <span data-i18n="trust2">Results in 30 minutes</span></div>
+      <div class="trust-badge">🏆 <span data-i18n="trust3">Validated on Vacuumlabs CTF</span></div>
+      <div class="trust-badge">🇨🇦 <span data-i18n="trust4">OVH Canada · HTTPS encrypted</span></div>
+    </div>
+
+    <button class="submit-btn" onclick="submitAudit()" data-i18n="submit_btn">Secure my contracts now →</button>
+    <div class="status" id="statusBox"><span id="statusMsg"></span></div>
   </div>
-</section>
+</div>
 
 <footer>
-  <p>
-    Built by <a href="https://github.com/KipepeoWallet">Kipepeo Wallet</a> · 
-    <a href="https://github.com/KipepeoWallet/AikenGuard">GitHub</a> · 
-    Validated on <a href="https://github.com/vacuumlabs/cardano-ctf">Vacuumlabs CTF</a>
-  </p>
-  <p style="margin-top:0.5rem;">© 2026 AikenGuard · OVH Beauharnois, Canada</p>
+  <p><span data-i18n="footer_built">Built for the Cardano community</span> · <a href="https://github.com/KipepeoWallet/AikenGuard">GitHub</a> · <a href="https://github.com/vacuumlabs/cardano-ctf">Vacuumlabs CTF</a> · audit@aikenguard.io</p>
+  <p style="margin-top:0.5rem;">© 2026 AikenGuard · OVH Beauharnois, Canada · 🔒 SSL</p>
 </footer>
 
+<script>
+const T = {
+  en: {
+    nav_how: "How it works", nav_pricing: "Pricing", nav_cta: "Get audit →", nav_quality: "Quality Guide",
+    badge: "⚡ Cardano native · eUTxO security",
+    hero_title_1: "Firestarter for the", hero_title_2: "Cardano community",
+    hero_sub: "We help Cardano developers write better contracts before going to a human auditor. When every developer cleans up as many flaws as possible, the whole community becomes stronger and more secure.",
+    fear: "⚠️ A single undetected vulnerability can lock funds permanently on-chain.",
+    mission_title: "Our mission",
+    mission_text: "AikenGuard is a simple, fast and powerful tool that automatically analyzes your Aiken smart contracts — so you arrive at your human audit cleaner, smarter, and ready to deploy with confidence. We believe security should be accessible to every Cardano developer, not just those with $15,000 for a full manual audit.",
+    stat1: "Security & quality detectors", stat2: "CTF detection rate", stat3: "Analysis layers", stat4: "Compliant reports",
+    how_title: "How it works", how_sub: "From upload to certified report in under 30 minutes.",
+    step1_title: "Upload contracts", step1_text: "Upload your .ak files directly on this page. No email, no account needed.",
+    step2_title: "Static analysis", step2_text: "15 detectors scan for eUTxO-specific vulnerabilities instantly.",
+    step3_title: "AI deep analysis", step3_text: "Multi-contract risk detection across all your validators together.",
+    step4_title: "PDF report", step4_text: "Receive your CIP-0052 compliant report by email. Ready for mainnet.",
+    pricing_title: "Simple pricing in ADA", pricing_sub: "Pay natively in ADA. No credit card. No account. No surprises.",
+    plan1_name: "Starter", plan1_desc: "Static analysis for simple contracts. Results in minutes.",
+    plan1_f1: "15 security detectors", plan1_f2: "JSON + PDF report", plan1_f3: "Up to 3 validators",
+    popular: "Most popular",
+    plan2_desc: "Full AI analysis. Recommended before mainnet deployment.",
+    plan2_f1: "Static + AI analysis", plan2_f2: "Multi-contract risks", plan2_f3: "CIP-0052 PDF report", plan2_f4: "GitHub audit badge",
+    plan3_name: "Certified", plan3_desc: "Full audit + on-chain NFT certification on Cardano.",
+    plan3_f1: "Everything in Pro", plan3_f2: "NFT on-chain", plan3_f3: "Verifiable forever", plan3_f4: "Priority support",
+    form_title: "Secure my contracts now", form_sub: "Upload your Aiken contracts, choose your plan, send ADA. Your PDF report arrives by email within 30 minutes.",
+    form_email_label: "📧 Your email — to receive the report", form_email_placeholder: "you@example.com",
+    form_file_label: "📁 Upload your .ak files",
+    drop_title: "Drop your .ak files here", drop_sub: "or click to browse your files",
+    form_plan_label: "🎯 Choose your plan",
+    send_label: "Send", send_to: "to this address",
+    addr_hint: "👆 Click to copy · Include your email in transaction metadata",
+    trust1: "Contracts deleted after analysis", trust2: "Results in 30 minutes",
+    trust3: "Validated on Vacuumlabs CTF", trust4: "OVH Canada · HTTPS encrypted",
+    submit_btn: "Secure my contracts now →",
+    footer_built: "Built for the Cardano community",
+    copied: "Address copied! ✅",
+    err_email: "Please enter a valid email address.",
+    err_file: "Please upload at least one .ak file.",
+    uploading: "⏳ Uploading your contracts...",
+    success: "✅ Contracts received! Now send {ada} ADA to the address above. Your PDF report will arrive at {email} within 30 minutes.",
+    err_conn: "❌ Connection error. Please try again."
+  },
+  fr: {
+    nav_how: "Comment ça marche", nav_pricing: "Tarifs", nav_cta: "Obtenir un audit →", nav_quality: "Guide qualité",
+    badge: "⚡ Natif Cardano · Sécurité eUTxO",
+    hero_title_1: "Firestarter pour la", hero_title_2: "communauté Cardano",
+    hero_sub: "Nous aidons les développeurs Cardano à écrire de meilleurs contrats avant de passer chez un auditeur humain. Quand chaque développeur corrige un maximum de failles, toute la communauté devient plus forte et plus sécurisée.",
+    fear: "⚠️ Une seule vulnérabilité non détectée peut bloquer des fonds définitivement on-chain.",
+    mission_title: "Notre mission",
+    mission_text: "AikenGuard est un outil simple, rapide et puissant qui analyse automatiquement vos smart contracts Aiken — pour que vous arriviez chez votre auditeur humain avec un code plus propre, plus sûr, et prêt pour le déploiement. Nous croyons que la sécurité doit être accessible à tous les développeurs Cardano, pas seulement à ceux qui ont 15 000 $ pour un audit manuel complet.",
+    stat1: "Détecteurs sécurité & qualité", stat2: "Taux de détection CTF", stat3: "Couches d'analyse", stat4: "Rapports conformes",
+    how_title: "Comment ça marche", how_sub: "Du téléchargement au rapport certifié en moins de 30 minutes.",
+    step1_title: "Téléchargez vos contrats", step1_text: "Déposez vos fichiers .ak directement sur cette page. Aucun email, aucun compte requis.",
+    step2_title: "Analyse statique", step2_text: "15 détecteurs scannent les vulnérabilités spécifiques à eUTxO instantanément.",
+    step3_title: "Analyse IA profonde", step3_text: "Détection des risques multi-contrats sur tous vos validators ensemble.",
+    step4_title: "Rapport PDF", step4_text: "Recevez votre rapport conforme CIP-0052 par email. Prêt pour le mainnet.",
+    pricing_title: "Tarifs simples en ADA", pricing_sub: "Payez en ADA. Pas de carte de crédit. Pas de compte. Pas de surprises.",
+    plan1_name: "Débutant", plan1_desc: "Analyse statique pour contrats simples. Résultats en quelques minutes.",
+    plan1_f1: "15 détecteurs de sécurité", plan1_f2: "Rapport JSON + PDF", plan1_f3: "Jusqu'à 3 validators",
+    popular: "Le plus populaire",
+    plan2_desc: "Analyse IA complète. Recommandé avant déploiement sur le mainnet.",
+    plan2_f1: "Analyse statique + IA", plan2_f2: "Risques multi-contrats", plan2_f3: "Rapport PDF CIP-0052", plan2_f4: "Badge GitHub d'audit",
+    plan3_name: "Certifié", plan3_desc: "Audit complet + certification NFT on-chain sur Cardano.",
+    plan3_f1: "Tout ce qui est dans Pro", plan3_f2: "NFT on-chain", plan3_f3: "Vérifiable à vie", plan3_f4: "Support prioritaire",
+    form_title: "Sécuriser mes contrats maintenant", form_sub: "Téléchargez vos contrats Aiken, choisissez votre plan, envoyez des ADA. Votre rapport PDF arrive par email en 30 minutes.",
+    form_email_label: "📧 Votre email — pour recevoir le rapport", form_email_placeholder: "vous@exemple.com",
+    form_file_label: "📁 Téléchargez vos fichiers .ak",
+    drop_title: "Déposez vos fichiers .ak ici", drop_sub: "ou cliquez pour parcourir vos fichiers",
+    form_plan_label: "🎯 Choisissez votre plan",
+    send_label: "Envoyez", send_to: "à cette adresse",
+    addr_hint: "👆 Cliquez pour copier · Incluez votre email dans les métadonnées de la transaction",
+    trust1: "Contrats supprimés après analyse", trust2: "Résultats en 30 minutes",
+    trust3: "Validé sur le CTF Vacuumlabs", trust4: "OVH Canada · HTTPS chiffré",
+    submit_btn: "Sécuriser mes contrats maintenant →",
+    footer_built: "Construit pour la communauté Cardano",
+    copied: "Adresse copiée ! ✅",
+    err_email: "Veuillez entrer une adresse email valide.",
+    err_file: "Veuillez télécharger au moins un fichier .ak.",
+    uploading: "⏳ Téléchargement de vos contrats...",
+    success: "✅ Contrats reçus ! Envoyez maintenant {ada} ADA à l'adresse ci-dessus. Votre rapport PDF arrivera à {email} dans 30 minutes.",
+    err_conn: "❌ Erreur de connexion. Veuillez réessayer."
+  },
+  es: {
+    nav_how: "Cómo funciona", nav_pricing: "Precios", nav_cta: "Obtener auditoría →", nav_quality: "Guía de calidad",
+    badge: "⚡ Nativo de Cardano · Seguridad eUTxO",
+    hero_title_1: "Firestarter para la", hero_title_2: "comunidad Cardano",
+    hero_sub: "Ayudamos a los desarrolladores de Cardano a escribir mejores contratos antes de ir a un auditor humano. Cuando cada desarrollador corrige el máximo de fallos posible, toda la comunidad se vuelve más fuerte y más segura.",
+    fear: "⚠️ Una sola vulnerabilidad no detectada puede bloquear fondos permanentemente on-chain.",
+    mission_title: "Nuestra misión",
+    mission_text: "AikenGuard es una herramienta simple, rápida y poderosa que analiza automáticamente tus smart contracts Aiken — para que llegues a tu auditor humano con código más limpio, más seguro y listo para el despliegue. Creemos que la seguridad debe ser accesible para todos los desarrolladores de Cardano, no solo para quienes tienen $15,000 para una auditoría manual completa.",
+    stat1: "Detectores seguridad & calidad", stat2: "Tasa de detección CTF", stat3: "Capas de análisis", stat4: "Informes conformes",
+    how_title: "Cómo funciona", how_sub: "Desde la carga hasta el informe certificado en menos de 30 minutos.",
+    step1_title: "Sube tus contratos", step1_text: "Sube tus archivos .ak directamente en esta página. Sin email, sin cuenta.",
+    step2_title: "Análisis estático", step2_text: "15 detectores escanean vulnerabilidades específicas de eUTxO al instante.",
+    step3_title: "Análisis IA profundo", step3_text: "Detección de riesgos multi-contrato en todos tus validators juntos.",
+    step4_title: "Informe PDF", step4_text: "Recibe tu informe conforme CIP-0052 por email. Listo para mainnet.",
+    pricing_title: "Precios simples en ADA", pricing_sub: "Paga en ADA. Sin tarjeta de crédito. Sin cuenta. Sin sorpresas.",
+    plan1_name: "Inicial", plan1_desc: "Análisis estático para contratos simples. Resultados en minutos.",
+    plan1_f1: "15 detectores de seguridad", plan1_f2: "Informe JSON + PDF", plan1_f3: "Hasta 3 validators",
+    popular: "Más popular",
+    plan2_desc: "Análisis IA completo. Recomendado antes del despliegue en mainnet.",
+    plan2_f1: "Análisis estático + IA", plan2_f2: "Riesgos multi-contrato", plan2_f3: "Informe PDF CIP-0052", plan2_f4: "Insignia de auditoría GitHub",
+    plan3_name: "Certificado", plan3_desc: "Auditoría completa + certificación NFT on-chain en Cardano.",
+    plan3_f1: "Todo lo del Plan Pro", plan3_f2: "NFT on-chain", plan3_f3: "Verificable para siempre", plan3_f4: "Soporte prioritario",
+    form_title: "Asegurar mis contratos ahora", form_sub: "Sube tus contratos Aiken, elige tu plan, envía ADA. Tu informe PDF llega por email en 30 minutos.",
+    form_email_label: "📧 Tu email — para recibir el informe", form_email_placeholder: "tu@ejemplo.com",
+    form_file_label: "📁 Sube tus archivos .ak",
+    drop_title: "Suelta tus archivos .ak aquí", drop_sub: "o haz clic para buscar tus archivos",
+    form_plan_label: "🎯 Elige tu plan",
+    send_label: "Envía", send_to: "a esta dirección",
+    addr_hint: "👆 Clic para copiar · Incluye tu email en los metadatos de la transacción",
+    trust1: "Contratos eliminados tras el análisis", trust2: "Resultados en 30 minutos",
+    trust3: "Validado en Vacuumlabs CTF", trust4: "OVH Canadá · HTTPS cifrado",
+    submit_btn: "Asegurar mis contratos ahora →",
+    footer_built: "Construido para la comunidad Cardano",
+    copied: "¡Dirección copiada! ✅",
+    err_email: "Por favor ingresa un email válido.",
+    err_file: "Por favor sube al menos un archivo .ak.",
+    uploading: "⏳ Subiendo tus contratos...",
+    success: "✅ ¡Contratos recibidos! Ahora envía {ada} ADA a la dirección de arriba. Tu informe PDF llegará a {email} en 30 minutos.",
+    err_conn: "❌ Error de conexión. Por favor intenta de nuevo."
+  }
+};
+
+let currentLang = 'en';
+let selectedADA = 179;
+let selectedFiles = [];
+
+function setLang(lang) {
+  currentLang = lang;
+  const t = T[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key]) el.textContent = t[key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (t[key]) el.placeholder = t[key];
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent === lang.toUpperCase());
+  });
+  localStorage.setItem('lang', lang);
+}
+
+function selectPlan(el, amount) {
+  document.querySelectorAll('.plan-opt').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  selectedADA = amount;
+  document.getElementById('adaAmt').textContent = amount;
+}
+
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+dropZone.addEventListener('click', () => fileInput.click());
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('over'));
+dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('over'); handleFiles(e.dataTransfer.files); });
+fileInput.addEventListener('change', e => handleFiles(e.target.files));
+
+function handleFiles(files) {
+  selectedFiles = [];
+  const list = document.getElementById('fileList');
+  list.innerHTML = '';
+  for (let f of files) {
+    if (f.name.endsWith('.ak')) {
+      selectedFiles.push(f);
+      const item = document.createElement('div');
+      item.className = 'file-item';
+      item.innerHTML = '📄 ' + f.name;
+      list.appendChild(item);
+    }
+  }
+}
+
+function copyAddr() {
+  navigator.clipboard.writeText('addr1qx3xa7e02hntguhplrl97ynp6l79pvkqkdcd2q4uwe3w2yn6z7pp6gdm3am8252g5rk2lp4a3ew9eryqss8te68n2x8qgmtg8l');
+  alert(T[currentLang].copied);
+}
+
+async function submitAudit() {
+  const t = T[currentLang];
+  const email = document.getElementById('clientEmail').value;
+  if (!email || !email.includes('@')) { showStatus(t.err_email, true); return; }
+  if (selectedFiles.length === 0) { showStatus(t.err_file, true); return; }
+  const formData = new FormData();
+  formData.append('email', email);
+  formData.append('plan', selectedADA.toString());
+  for (let f of selectedFiles) formData.append('files', f);
+  showStatus(t.uploading, false);
+  try {
+    const res = await fetch('/submit', { method: 'POST', body: formData });
+    const result = await res.json();
+    if (res.ok) {
+      showStatus(t.success.replace('{ada}', selectedADA).replace('{email}', email), false);
+    } else {
+      showStatus('❌ ' + (result.detail || 'Error'), true);
+    }
+  } catch (e) {
+    showStatus(t.err_conn, true);
+  }
+}
+
+function showStatus(msg, isErr) {
+  const box = document.getElementById('statusBox');
+  const txt = document.getElementById('statusMsg');
+  box.style.display = 'block';
+  box.className = 'status ' + (isErr ? 'err' : 'ok');
+  txt.textContent = msg;
+}
+
+// Détecter la langue au chargement
+const saved = localStorage.getItem('lang') || navigator.language.split('-')[0];
+setLang(['en','fr','es'].includes(saved) ? saved : 'en');
+</script>
 </body>
 </html>
