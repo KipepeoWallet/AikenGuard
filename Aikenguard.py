@@ -149,21 +149,6 @@ RULES = [
         "recommendation": "Confirmer que le paramètre ignoré est intentionnel.",
     },
     {
-        "id": "AK-010",
-        "severity": "LOW",
-        "title": "Validator sans documentation",
-        "pattern": r"^validator\s+\w+",
-        "inverse": True,
-        "inverse_trigger": r"^validator\s+\w+",
-        "inverse_check": r"///",
-        "description": (
-            "Un validator sans commentaire /// rend l'audit manuel plus difficile."
-        ),
-        "recommendation": (
-            "Ajouter /// avant chaque validator décrivant les invariants attendus."
-        ),
-    },
-    {
         "id": "AK-011",
         "severity": "CRITICAL",
         "title": "Double satisfaction — list.find sans unicité",
