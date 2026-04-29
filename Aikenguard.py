@@ -23,7 +23,6 @@ def check_ak016(content, filename):
             "recommendation": "Verify owner against minting policy or reference input."
         })
     return findings
-
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
@@ -147,6 +146,21 @@ RULES = [
             "Vérifier que ce n'est pas une omission critique."
         ),
         "recommendation": "Confirmer que le paramètre ignoré est intentionnel.",
+    },
+    {
+        "id": "AK-010",
+        "severity": "LOW",
+        "title": "Validator sans documentation",
+        "pattern": r"^validator\s+\w+",
+        "inverse": True,
+        "inverse_trigger": r"^validator\s+\w+",
+        "inverse_check": r"///",
+        "description": (
+            "Un validator sans commentaire /// rend l'audit manuel plus difficile."
+        ),
+        "recommendation": (
+            "Ajouter /// avant chaque validator décrivant les invariants attendus."
+        ),
     },
     {
         "id": "AK-011",
@@ -480,4 +494,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
