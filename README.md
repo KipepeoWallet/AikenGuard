@@ -1,163 +1,226 @@
-![AikenGuard Logo](AikenGuard_logo.jpg)
+# 🦋 Kipepeo
 
-> Security analysis platform for Aiken smart contracts on Cardano
-
-[![Version](https://img.shields.io/badge/version-0.4-2EFFB5)](https://github.com/KipepeoWallet/AikenGuard)
-[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
-[![Cardano](https://img.shields.io/badge/Cardano-eUTxO-0033AD)](https://cardano.org)
-[![CTF Score](https://img.shields.io/badge/CTF_Vacuumlabs-63%25-brightgreen)](https://github.com/vacuumlabs/cardano-ctf)
-[![CIP-0052](https://img.shields.io/badge/CIP--0052-compliant-2EFFB5)](https://cips.cardano.org)
+> *"Kipepeo" means **butterfly** in Swahili — transformation, lightness, freedom.*
+> *"Kipepeo" signifie **papillon** en swahili — transformation, légèreté, liberté.*
 
 ---
 
-AikenGuard finds vulnerabilities in Aiken smart contracts before they reach mainnet.  
-**Two analysis layers** — static detectors + local LLM — cross-validate findings and produce CIP-0052 compliant audit reports.
+**[EN]** A sovereign mobile wallet on Cardano for everyday citizens in Kenya and East Africa. Simple as M-Pesa — but *you* own everything.
+
+**[FR]** Un wallet mobile souverain sur Cardano pour les citoyens ordinaires au Kenya et en Afrique de l'Est. Aussi simple que M-Pesa — mais *tu* possèdes tout.
 
 ---
 
-## Why AikenGuard
-
-Cardano smart contracts are immutable once deployed. A single vulnerability can lock funds forever or drain a protocol. Manual audits cost $15,000–$50,000 and take weeks. AikenGuard catches the most critical Cardano-specific bugs automatically, in minutes.
-
-- **eUTxO-native** — detectors built specifically for Cardano's extended UTxO model
-- **Multi-layer analysis** — static rules + Gemma 3 27B LLM working together
-- **Multi-contract aware** — detects vulnerabilities in interactions between validators
-- **Validated against CTF** — 63% detection rate on Vacuumlabs Cardano CTF (15/24 bugs)
-- **CIP-0052 reports** — audit reports following the Cardano audit standard
+[![Cardano](https://img.shields.io/badge/Cardano-Mainnet-blue?style=flat-square&logo=cardano)](https://cardano.org)
+[![Aiken](https://img.shields.io/badge/Smart%20Contracts-Aiken-purple?style=flat-square)](https://aiken-lang.org)
+[![Tests](https://img.shields.io/badge/Tests-89%20PASS-green?style=flat-square)](#)
+[![License](https://img.shields.io/badge/License-Apache%202.0-lightgrey?style=flat-square)](LICENSE)
+[![PALM Ready](https://img.shields.io/badge/PALM-Ready-brightgreen?style=flat-square)](https://palmeconomy.io)
+[![Fund15](https://img.shields.io/badge/Project%20Catalyst-Fund%2015-orange?style=flat-square)](https://projectcatalyst.io)
 
 ---
 
-## Quick Start
+## The problem / Le problème
 
-```bash
-# Layer 1 — Static analysis (instant)
-python3 Aikenguard.py validators/
+**[EN]** 54% of Africans have no bank account. M-Pesa solves payments — but keeps control. IOG built the rails with Atala PRISM, then shut it down overnight. Every solution so far replaced one controller with another.
 
-# Layer 2 — LLM multi-file analysis (requires Ollama + Gemma 3 27B)
-python3 aikenguard_llm.py validators/
-```
-
-### Requirements
-
-```bash
-# Layer 1
-python3 --version  # Python 3.9+
-
-# Layer 2
-ollama pull gemma3:27b
-```
+**[FR]** 54% des Africains n'ont pas de compte bancaire. M-Pesa règle le paiement — mais garde le contrôle. IOG a construit les rails avec Atala PRISM, puis a fermé du jour au lendemain. Chaque solution jusqu'ici a remplacé un contrôleur par un autre.
 
 ---
 
-## Detectors — 15 Rules (AK-001 to AK-015)
+## The solution / La solution
 
-| Rule | Severity | Description |
-|------|----------|-------------|
-| AK-001 | 🔴 CRITICAL | Multiple satisfaction — UTxO uniqueness not verified |
-| AK-002 | 🔴 CRITICAL | Untyped datum — generic Data type |
-| AK-006 | 🟡 MEDIUM | trace() present in production code |
-| AK-007 | 🟡 MEDIUM | Reachable todo() or fail() |
-| AK-008 | 🟡 MEDIUM | Time constraint without valid_range |
-| AK-009 | 🔵 LOW | Ignored function parameter |
-| AK-010 | 🔵 LOW | Validator without documentation |
-| AK-011 | 🔴 CRITICAL | Double satisfaction — list.find without uniqueness |
-| AK-012 | 🟠 HIGH | Datum not persisted — counter not updated on-chain |
-| AK-013 | 🟠 HIGH | Revoke without real signature verification |
-| AK-014 | 🟠 HIGH | Temporal check on upper_bound — bypassable |
-| AK-015 | 🟠 HIGH | Vesting without beneficiary verification |
+**[EN]** Kipepeo puts the full financial stack in one wallet — payments, identity, assets, micro-shares — with no company in between. The contracts are on-chain. Nobody can shut this down. Not even us.
+
+**[FR]** Kipepeo met toute la pile financière dans un seul wallet — paiements, identité, actifs, micro-actions — sans aucune entreprise entre l'utilisateur et ses fonds. Les contrats sont on-chain. Personne ne peut éteindre ça. Pas même nous.
 
 ---
 
-## Output Formats
+## What's built / Ce qui est construit
 
-```bash
-# Terminal (colored)
-python3 Aikenguard.py validators/
+| Smart Contract | Description | Status |
+|---|---|---|
+| `micro_payment` | Instant payments — matatu, vendors, parking | ✅ 89 tests PASS |
+| `recurring_escrow` | Rent, pension, contributions — automated | ✅ 89 tests PASS |
+| `identity_vault` | DID + credentials — Hyperledger Identus | ✅ 89 tests PASS |
+| `asset_guard` | Large amount protection, configurable thresholds | ✅ 89 tests PASS |
 
-# JSON report
-python3 Aikenguard.py validators/ report.json
+**Stack:**
+- Smart contracts — [Aiken](https://aiken-lang.org)
+- Identity — [Hyperledger Identus](https://github.com/hyperledger/identus) (open source successor to Atala PRISM)
+- Stablecoins — DJED / iUSD / USDCx
+- Privacy layer — [Midnight](https://midnight.network) (ZK proofs)
+- Blockchain — [Cardano](https://cardano.org)
+
+---
+
+## Use cases / Cas d'usage
+
+**[EN]** Designed for real life in East Africa — not for VC decks.
+
+**[FR]** Conçu pour la vraie vie en Afrique de l'Est — pas pour des pitch decks.
+
+- 🚌 **Matatu** — tap & pay in seconds / payer en secondes
+- 🏪 **Market vendors** — receive payments, no data plan needed / recevoir sans forfait data
+- 🎓 **School records** — blockchain-verified diplomas / diplômes vérifiables on-chain
+- 🏠 **Land titles** — sovereign property ownership / titre foncier souverain
+- 🌾 **Farmers** — payment + identity + micro-credit from on-chain history
+- 🍞 **SME micro-shares** — bakery, café, farm — local equity tokenized
+
+---
+
+## 🌿 PALM Ready
+
+**[EN]** Kipepeo is **PALM Ready** — designed to integrate natively with the [PALM Economy / Palmyra](https://palmeconomy.io) platform (zenGate Global).
+
+PALM certifies the commodity → Kipepeo pays the producer → the farmer owns their identity and assets.
+
+**[FR]** Kipepeo est **PALM Ready** — conçu pour s'intégrer nativement avec la plateforme [PALM Economy / Palmyra](https://palmeconomy.io) (zenGate Global).
+
+PALM certifie la commodité → Kipepeo paie le producteur → le fermier possède son identité et ses actifs.
+
+```
+Farmer / Fermier
+    ↓
+PALM  →  certifies crop / certifie la récolte  (B2B layer)
+    ↓
+Kipepeo  →  receives payment, stores DID  (B2C layer)
+    ↓
+On-chain history  →  micro-credit, land title, SME shares
 ```
 
-Example output:
-```
-══════════════════════════════════════════════════════════
-  🛡️  AikenGuard v0.4 — Audit Report
-══════════════════════════════════════════════════════════
-  Project   : my_contract
-  Files     : 3 contracts analyzed
-──────────────────────────────────────────────────────────
-  CRITICAL  2
-  HIGH      1
-  MEDIUM    0
-  LOW       1
-  Score : 40/100  [████░░░░░░]
-  Standard : CIP-0052 Cardano Audit Guidelines
-══════════════════════════════════════════════════════════
-```
+No bridge needed. Same chain. Cardano.
 
 ---
 
 ## Architecture
 
 ```
-Layer 1 — AikenGuard Static (Python)
-  → 15 regex + AST detectors
-  → Instant results
-  → eUTxO-specific patterns
-
-Layer 2 — AikenGuard LLM (Gemma 3 27B via Ollama)
-  → Analyzes ALL project files together
-  → Detects multi-contract interaction vulnerabilities
-  → Contextual understanding of business logic
-  → multi_contract_risks section in report
+┌─────────────────────────────────────────────┐
+│              Kipepeo Wallet (mobile)         │
+│  ┌──────────┐ ┌──────────┐ ┌─────────────┐  │
+│  │  Pay     │ │  ID/DID  │ │   Assets    │  │
+│  │ DJED/iUSD│ │ Identus  │ │ RWA / Shares│  │
+│  │  USDCx   │ │ Midnight │ │ Land titles │  │
+│  └──────────┘ └──────────┘ └─────────────┘  │
+└────────────────────┬────────────────────────┘
+                     │
+        ┌────────────▼────────────┐
+        │     Cardano Mainnet     │
+        │  4 Aiken smart contracts│
+        │  Immutable — always on  │
+        └─────────────────────────┘
+                     │
+        ┌────────────▼────────────┐
+        │    PALM / Palmyra       │
+        │  Commodity traceability │
+        │  B2B layer — zenGate    │
+        └─────────────────────────┘
 ```
-
----
-
-## CTF Validation — Vacuumlabs Cardano CTF
-
-AikenGuard was benchmarked against the [Vacuumlabs Cardano CTF](https://github.com/vacuumlabs/cardano-ctf) — a suite of intentionally vulnerable Aiken contracts used in professional security training.
-
-| Series | Bugs Detected | Coverage |
-|--------|--------------|----------|
-| 00-09 Simple contracts | 9/10 | 90% |
-| Bank series (multi-contract) | 6/14 | 43% |
-| **Total** | **15/24** | **63%** |
-
-Layer 2 (LLM) significantly improves detection on multi-contract vulnerabilities.
-
----
-
-## Vulnerability Coverage
-
-Detectors derived from real vulnerabilities documented in:
-
-| Source | Patterns Covered |
-|--------|-----------------|
-| Vacuumlabs audit reports | Double satisfaction, missing signature checks |
-| MLabs audit reports | Datum tampering, unsafe datum handling |
-| Plutonomicon | eUTxO-specific attack patterns |
-| Vacuumlabs CTF | 24 intentional vulnerabilities |
 
 ---
 
 ## Roadmap
 
-- [ ] **v0.5** — Aikido CLI integration (75 additional Rust detectors)
-- [ ] **v0.6** — On-chain NFT certification (Cardano blockchain)
-- [ ] **v0.7** — Automated fix suggestions
-- [ ] **v1.0** — Web service — upload contracts, pay in ADA, receive certified report
+| Milestone | Description | Status |
+|---|---|---|
+| M0 | 4 Aiken contracts — 89 tests PASS | ✅ Done |
+| M1 | Testnet deployment | 🔄 In progress |
+| M2 | Project Catalyst Fund 15 submission | 📋 Pending testnet |
+| M3 | 50 pilot users — Nairobi | ⏳ Planned |
+| M4 | PALM Economy integration | ⏳ Planned |
+| M5 | Mainnet + first tokenized RWA | ⏳ Planned |
+| M6 | Land titles + SME micro-shares | 🌱 Vision |
 
 ---
 
-## About
+## Why Cardano / Pourquoi Cardano
 
-AikenGuard is developed by [Kipepeo Wallet](https://github.com/KipepeoWallet) — a sovereign mobile wallet for Africa built on Cardano.
+**[EN]** Bitcoin exists without Satoshi. Cardano exists without Hoskinson. Kipepeo can exist without us — that's real decentralization.
 
-Built with ❤️ for the Cardano community.
+**[FR]** Bitcoin existe sans Satoshi. Cardano existe sans Hoskinson. Kipepeo peut exister sans nous — c'est ça la vraie décentralisation.
+
+- Proof-of-Stake — low energy, low fees
+- Native assets — no complex smart contract overhead for tokens
+- Aiken — safe, auditable smart contract language
+- Hyperledger Identus — open source DID, no corporate dependency
+- Governance — Project Catalyst funds builders directly
+
+---
+
+## Positioning / Positionnement
+
+| | M-Pesa | IOG / Atala | World Mobile | **Kipepeo** |
+|---|---|---|---|---|
+| Who controls? | Safaricom + Kenya Gov | IOG (closed 2024) | Shareholders | **Nobody — on-chain** |
+| Identity | No | Shut down | No | **Self-sovereign DID** |
+| Assets | No | No | No | **Land, SME, RWA** |
+| Works offline? | Partial | N/A | Needs their nodes | **Yes** |
+| Can be shut down? | Yes | Yes (proven) | Yes | **No** |
+
+---
+
+## Project Catalyst Fund 15
+
+**[EN]** Kipepeo is submitting to [Project Catalyst Fund 15](https://projectcatalyst.io). We are looking for:
+
+- Community reviewers before submission
+- Co-proposers with Africa ground experience
+- Stake pool operators in Kenya / Tanzania
+
+**[FR]** Kipepeo soumet au [Project Catalyst Fund 15](https://projectcatalyst.io). Nous cherchons :
+
+- Reviewers communautaires avant soumission
+- Co-proposeurs avec expérience terrain en Afrique
+- Stake pool operators au Kenya / Tanzanie
+
+---
+
+## Key partners & contacts / Partenaires & contacts
+
+| Organization | Role | Link |
+|---|---|---|
+| WADA | West Africa Cardano community | [@WadaADA](https://twitter.com/WadaADA) |
+| iceaddis | Pan-African incubator (Ariob program) | [iceaddis.com](https://iceaddis.com) |
+| PALM Economy | Commodity traceability — PALM Ready integration | [palmeconomy.io](https://palmeconomy.io) |
+| Project Catalyst | Funding — Fund 15 | [projectcatalyst.io](https://projectcatalyst.io) |
+| Hyperledger Identus | Open source DID framework | [github.com/hyperledger/identus](https://github.com/hyperledger/identus) |
+
+---
+
+## Contributing / Contribuer
+
+**[EN]** This project is in active development. If you're a builder, community connector, or stake pool operator in East Africa — open an issue or reach out directly.
+
+**[FR]** Ce projet est en développement actif. Si tu es builder, connecteur communautaire, ou stake pool operator en Afrique de l'Est — ouvre une issue ou contacte-nous directement.
+
+```bash
+git clone https://github.com/kipepeo-ada/kipepeo
+cd kipepeo
+# Smart contracts in /contracts — Aiken
+# See CONTRIBUTING.md for setup
+```
 
 ---
 
 ## License
 
-MIT
+Apache 2.0 — same as Hyperledger Identus. Open. Forever.
+
+---
+
+## Contact
+
+- X / Twitter: `@kipepeo_ada`
+- Cardano Forum: coming soon
+- Email: coming soon
+
+---
+
+> *"M-Pesa gave you a phone with a leash. Kipepeo gives you the keys."*
+>
+> *"M-Pesa t'a donné un téléphone avec une laisse. Kipepeo te donne les clés."*
+
+---
+
+*Built on [Cardano](https://cardano.org) · Powered by community · Owned by nobody*
