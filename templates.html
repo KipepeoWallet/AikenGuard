@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AikenGuard — Certified Templates Hub</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0d0c09; color: #e8e0d0; min-height: 100vh; }
+
+nav { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 3rem; border-bottom: 1px solid #2a2416; background: rgba(13,12,9,0.97); position: sticky; top: 0; z-index: 100; }
+.logo { font-size: 1.4rem; font-weight: 700; color: #f5a623; letter-spacing: -0.5px; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+.logo img { height: 38px; border-radius: 50%; }
+.logo span { color: #e8e0d0; }
+nav a { color: #9a8e78; text-decoration: none; font-size: 0.9rem; margin-left: 1.5rem; transition: color 0.2s; }
+nav a:hover { color: #f5a623; }
+.nav-back { background: rgba(245,166,35,0.1); border: 1px solid rgba(245,166,35,0.3); color: #f5a623 !important; padding: 0.4rem 1rem; border-radius: 6px; }
+
+.hero { text-align: center; padding: 4rem 2rem 3rem; max-width: 760px; margin: 0 auto; }
+.badge { display: inline-block; background: rgba(245,166,35,0.12); color: #f5a623; border: 1px solid rgba(245,166,35,0.3); padding: 0.3rem 1rem; border-radius: 20px; font-size: 0.78rem; margin-bottom: 1.5rem; letter-spacing: 1px; text-transform: uppercase; }
+h1 { font-size: 2.4rem; font-weight: 800; color: #f0e8d8; margin-bottom: 1rem; }
+h1 span { color: #f5a623; }
+.hero-sub { font-size: 1rem; color: #8a7e6a; line-height: 1.75; margin-bottom: 0.5rem; }
+
+.mission { background: rgba(245,166,35,0.07); border-left: 3px solid #f5a623; border-radius: 0 12px 12px 0; padding: 1rem 1.5rem; margin: 1.5rem 3rem; font-size: 0.88rem; color: #9a8e78; line-height: 1.7; }
+
+.filter-bar { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; padding: 0 2rem 2rem; }
+.filter-btn { background: transparent; border: 1px solid #2a2416; color: #6a6050; padding: 5px 14px; border-radius: 20px; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
+.filter-btn:hover, .filter-btn.active { background: rgba(245,166,35,0.1); border-color: #f5a623; color: #f5a623; }
+
+.templates-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.25rem; padding: 0 2rem 4rem; max-width: 1100px; margin: 0 auto; }
+
+.template-card { background: #131109; border: 1px solid #2a2416; border-radius: 14px; padding: 1.5rem; transition: border-color 0.2s; display: flex; flex-direction: column; gap: 0.75rem; }
+.template-card:hover { border-color: rgba(245,166,35,0.4); }
+.template-card.certified { border-color: rgba(46,200,90,0.3); }
+
+.card-header { display: flex; justify-content: space-between; align-items: flex-start; }
+.card-title { font-size: 1rem; font-weight: 700; color: #f0e8d8; }
+.card-author { font-size: 0.75rem; color: #6a6050; margin-top: 2px; }
+
+.score-badge { text-align: center; min-width: 56px; }
+.score-num { font-size: 1.4rem; font-weight: 800; }
+.score-label { font-size: 0.65rem; color: #6a6050; text-transform: uppercase; }
+
+.score-green { color: #2ec85a; }
+.score-amber { color: #f5a623; }
+.score-red { color: #e05050; }
+
+.verdict-badge { display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 3px 10px; border-radius: 4px; }
+.verdict-ready { background: rgba(46,200,90,0.15); color: #2ec85a; border: 1px solid rgba(46,200,90,0.3); }
+.verdict-needs { background: rgba(245,166,35,0.15); color: #f5a623; border: 1px solid rgba(245,166,35,0.3); }
+.verdict-pending { background: rgba(100,100,100,0.15); color: #888; border: 1px solid rgba(100,100,100,0.3); }
+
+.card-desc { font-size: 0.82rem; color: #6a6050; line-height: 1.6; }
+
+.card-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.tag { font-size: 0.7rem; background: rgba(245,166,35,0.08); color: #9a8e78; border: 1px solid #2a2416; padding: 2px 8px; border-radius: 4px; }
+
+.card-actions { display: flex; gap: 0.5rem; margin-top: auto; }
+.btn-github { flex: 1; text-align: center; padding: 0.55rem; border: 1px solid #2a2416; border-radius: 7px; font-size: 0.8rem; color: #9a8e78; text-decoration: none; transition: all 0.2s; }
+.btn-github:hover { border-color: #f5a623; color: #f5a623; }
+.btn-download { flex: 1; text-align: center; padding: 0.55rem; background: rgba(245,166,35,0.1); border: 1px solid rgba(245,166,35,0.3); border-radius: 7px; font-size: 0.8rem; color: #f5a623; text-decoration: none; transition: all 0.2s; }
+.btn-download:hover { background: rgba(245,166,35,0.2); }
+.btn-audit { flex: 1; text-align: center; padding: 0.55rem; background: #f5a623; border-radius: 7px; font-size: 0.8rem; color: #0d0c09; font-weight: 700; text-decoration: none; transition: opacity 0.2s; }
+.btn-audit:hover { opacity: 0.85; }
+
+.contribute { background: rgba(245,166,35,0.07); border: 1px dashed rgba(245,166,35,0.3); border-radius: 14px; padding: 2rem; text-align: center; margin: 0 2rem 4rem; max-width: 1100px; margin-left: auto; margin-right: auto; }
+.contribute h3 { color: #f5a623; font-size: 1rem; margin-bottom: 0.5rem; }
+.contribute p { font-size: 0.85rem; color: #6a6050; line-height: 1.7; }
+.contribute a { color: #f5a623; }
+
+footer { border-top: 1px solid #2a2416; padding: 2rem; text-align: center; color: #4a4030; font-size: 0.78rem; }
+footer a { color: #f5a623; text-decoration: none; }
+
+@media (max-width: 680px) {
+  h1 { font-size: 1.8rem; }
+  .templates-grid { grid-template-columns: 1fr; padding: 0 1rem 3rem; }
+  nav { padding: 1rem; }
+  .mission { margin: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">
+    <img src="https://raw.githubusercontent.com/KipepeoWallet/AikenGuard/main/AikenGuard_logo.jpg" alt="AikenGuard">
+    Aiken<span>Guard</span>
+  </a>
+  <div>
+    <a href="https://github.com/KipepeoWallet/AikenGuard" target="_blank">GitHub</a>
+    <a href="https://github.com/KipepeoWallet/AikenGuard/blob/main/QUALITY_GUIDE.md" target="_blank">Quality Guide</a>
+    <a href="/" class="nav-back">← Back to Audit</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="badge">🛡️ Cardano native · Community Hub</div>
+  <h1>Certified <span>Templates</span> Hub</h1>
+  <p class="hero-sub">Aiken smart contract templates audited and certified by AikenGuard. Download, customize, and deploy with confidence.</p>
+</div>
+
+<div class="mission">
+  We centralize the best Aiken templates from the community — each one audited, scored, and ready to use. We believe in applying community standards, not inventing them. All credits to the original authors.
+</div>
+
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterCards('all', this)">All</button>
+  <button class="filter-btn" onclick="filterCards('certified', this)">✅ Certified</button>
+  <button class="filter-btn" onclick="filterCards('vesting', this)">Vesting</button>
+  <button class="filter-btn" onclick="filterCards('escrow', this)">Escrow</button>
+  <button class="filter-btn" onclick="filterCards('multisig', this)">Multisig</button>
+  <button class="filter-btn" onclick="filterCards('nft', this)">NFT</button>
+  <button class="filter-btn" onclick="filterCards('wallet', this)">Wallet</button>
+</div>
+
+<div class="templates-grid" id="templatesGrid">
+
+  <!-- Vesting aiken-lang -->
+  <div class="template-card" data-tags="vesting">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Vesting Contract</div>
+        <div class="card-author">by aiken-lang</div>
+      </div>
+      <div class="score-badge">
+        <div class="score-num score-amber">?</div>
+        <div class="score-label">pending</div>
+      </div>
+    </div>
+    <span class="verdict-badge verdict-pending">⏳ Audit Pending</span>
+    <p class="card-desc">Locks ADA for a period of time and unlocks it for a beneficiary after a specified date. Official example from aiken-lang.</p>
+    <div class="card-tags">
+      <span class="tag">vesting</span>
+      <span class="tag">timelock</span>
+      <span class="tag">official</span>
+    </div>
+    <div class="card-actions">
+      <a href="https://aiken-lang.org/example--vesting" target="_blank" class="btn-github">Docs</a>
+      <a href="https://github.com/aiken-lang/aiken/tree/main/examples/vesting" target="_blank" class="btn-download">GitHub</a>
+      <a href="/#audit" class="btn-audit">Audit →</a>
+    </div>
+  </div>
+
+  <!-- Gift Card aiken-lang -->
+  <div class="template-card" data-tags="nft">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Gift Card Validator</div>
+        <div class="card-author">by aiken-lang</div>
+      </div>
+      <div class="score-badge">
+        <div class="score-num score-amber">?</div>
+        <div class="score-label">pending</div>
+      </div>
+    </div>
+    <span class="verdict-badge verdict-pending">⏳ Audit Pending</span>
+    <p class="card-desc">Redeemable NFT gift cards with validator logic and blueprint structure. Official example dApp from aiken-lang.</p>
+    <div class="card-tags">
+      <span class="tag">nft</span>
+      <span class="tag">gift-card</span>
+      <span class="tag">official</span>
+    </div>
+    <div class="card-actions">
+      <a href="https://github.com/aiken-lang/awesome-aiken" target="_blank" class="btn-github">GitHub</a>
+      <a href="https://aiken-lang.org" target="_blank" class="btn-download">Docs</a>
+      <a href="/#audit" class="btn-audit">Audit →</a>
+    </div>
+  </div>
+
+  <!-- Escrow MeshJS -->
+  <div class="template-card" data-tags="escrow">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Escrow Contract</div>
+        <div class="card-author">by MeshJS</div>
+      </div>
+      <div class="score-badge">
+        <div class="score-num score-amber">?</div>
+        <div class="score-label">pending</div>
+      </div>
+    </div>
+    <span class="verdict-badge verdict-pending">⏳ Audit Pending</span>
+    <p class="card-desc">Production-ready escrow contract with royalty and swap support. Ready to customize and deploy. Official MeshJS template.</p>
+    <div class="card-tags">
+      <span class="tag">escrow</span>
+      <span class="tag">royalty</span>
+      <span class="tag">swap</span>
+      <span class="tag">meshjs</span>
+    </div>
+    <div class="card-actions">
+      <a href="https://meshjs.dev/libraries/smart-contract" target="_blank" class="btn-github">MeshJS</a>
+      <a href="https://github.com/MeshJS/mesh" target="_blank" class="btn-download">GitHub</a>
+      <a href="/#audit" class="btn-audit">Audit →</a>
+    </div>
+  </div>
+
+  <!-- Multisig Anastasia Labs -->
+  <div class="template-card" data-tags="multisig">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Upgradable Multisig</div>
+        <div class="card-author">by Anastasia Labs</div>
+      </div>
+      <div class="score-badge">
+        <div class="score-num score-amber">?</div>
+        <div class="score-label">pending</div>
+      </div>
+    </div>
+    <span class="verdict-badge verdict-pending">⏳ Audit Pending</span>
+    <p class="card-desc">Upgradable multisig with NFT-based state management, threshold validation, and dynamic signer management. Prevents replay attacks.</p>
+    <div class="card-tags">
+      <span class="tag">multisig</span>
+      <span class="tag">nft</span>
+      <span class="tag">upgradable</span>
+      <span class="tag">anastasia</span>
+    </div>
+    <div class="card-actions">
+      <a href="https://github.com/Anastasia-Labs/aiken-upgradable-multisig" target="_blank" class="btn-github">GitHub</a>
+      <a href="https://github.com/Anastasia-Labs/aiken-upgradable-multisig" target="_blank" class="btn-download">Docs</a>
+      <a href="/#audit" class="btn-audit">Audit →</a>
+    </div>
+  </div>
+
+  <!-- Escrow Index Fund aiken-lang -->
+  <div class="template-card" data-tags="escrow">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Escrow to Index Fund</div>
+        <div class="card-author">by aiken-lang</div>
+      </div>
+      <div class="score-badge">
+        <div class="score-num score-amber">?</div>
+        <div class="score-label">pending</div>
+      </div>
+    </div>
+    <span class="verdict-badge verdict-pending">⏳ Audit Pending</span>
+    <p class="card-desc">An escrow mechanism that redirects funds into an index fund. Creative DeFi pattern for Cardano.</p>
+    <div class="card-tags">
+      <span class="tag">escrow</span>
+      <span class="tag">defi</span>
+      <span class="tag">index-fund</span>
+    </div>
+    <div class="card-actions">
+      <a href="https://github.com/aiken-lang/escrow_to_index_fund" target="_blank" class="btn-github">GitHub</a>
+      <a href="https://github.com/aiken-lang/escrow_to_index_fund" target="_blank" class="btn-download">Source</a>
+      <a href="/#audit" class="btn-audit">Audit →</a>
+    </div>
+  </div>
+
+  <!-- Tipjar sécurisé CTF -->
+  <div class="template-card" data-tags="wallet">
+    <div class="card-header">
+      <div>
+        <div class="card-title">Tipjar (Corrected)</div>
+        <div class="card-author">by Vacuumlabs CTF</div>
+      </div>
+      <div class="score-badge">
+        <div class="score-num score-amber">?</div>
+        <div class="score-label">pending</div>
+      </div>
+    </div>
+    <span class="verdict-badge verdict-pending">⏳ Audit Pending</span>
+    <p class="card-desc">The famous Vacuumlabs CTF tipjar with AK-016 vulnerability corrected — datum owner properly verified against external source.</p>
+    <div class="card-tags">
+      <span class="tag">tipjar</span>
+      <span class="tag">ctf</span>
+      <span class="tag">corrected</span>
+    </div>
+    <div class="card-actions">
+      <a href="https://github.com/vacuumlabs/cardano-ctf" target="_blank" class="btn-github">GitHub</a>
+      <a href="https://github.com/vacuumlabs/cardano-ctf/tree/main/04_tipjar" target="_blank" class="btn-download">Source</a>
+      <a href="/#audit" class="btn-audit">Audit →</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- Contribute section -->
+<div class="contribute" style="margin: 0 2rem 4rem; max-width: 1056px; margin-left: auto; margin-right: auto;">
+  <h3>🤝 Contribute a Template</h3>
+  <p style="margin-top: 0.5rem;">
+    Have an Aiken template you'd like to see certified? Submit it to our GitHub and we'll audit it for free.<br>
+    All credits go to the original authors. Together we make Cardano stronger.<br><br>
+    <a href="https://github.com/KipepeoWallet/AikenGuard" target="_blank">→ Submit on GitHub</a> &nbsp;·&nbsp;
+    <a href="mailto:audit@aikenguard.io">→ Contact us</a>
+  </p>
+</div>
+
+<footer>
+  <p>Built for the Cardano community · <a href="https://github.com/KipepeoWallet/AikenGuard">GitHub</a> · <a href="/">aikenguard.io</a> · audit@aikenguard.io</p>
+  <p style="margin-top:0.5rem;">© 2026 AikenGuard · All template credits to original authors · OVH Beauharnois, Canada</p>
+</footer>
+
+<script>
+function filterCards(tag, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.template-card').forEach(card => {
+    if (tag === 'all') {
+      card.style.display = '';
+    } else if (tag === 'certified') {
+      card.style.display = card.classList.contains('certified') ? '' : 'none';
+    } else {
+      card.style.display = card.dataset.tags.includes(tag) ? '' : 'none';
+    }
+  });
+}
+</script>
+
+</body>
+</html>
