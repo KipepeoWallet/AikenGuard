@@ -1,4 +1,4 @@
-# 🛡️ AikenGuard
+![AikenGuard Logo](AikenGuard_logo.jpg)
 
 > Security analysis platform for Aiken smart contracts on Cardano
 
