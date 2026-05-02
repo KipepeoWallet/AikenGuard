@@ -1,2 +1,32 @@
-automation.py
-api.py
+# Secrets — JAMAIS dans Git
+.env*
+*.env
+secrets/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.Python
+
+# Backups locaux
+*.backup_*
+*.bak
+*.old
+*~
+
+# IDE / OS
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Audits temporaires
+pending_audits/
+/tmp/
