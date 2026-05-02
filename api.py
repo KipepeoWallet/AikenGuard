@@ -259,7 +259,7 @@ def run_full_audit(email, files_data, plan, lang="en"):
         report_path = f"{tmp}/report.json"
         try:
             l1 = subprocess.run(
-                ["python3", AIKENGUARD_PY, tmp, report_path],
+                ["python3", AIKENGUARD_PY, tmp, report_path, lang],
                 capture_output=True, text=True, timeout=300,
             )
             if l1.returncode != 0:
