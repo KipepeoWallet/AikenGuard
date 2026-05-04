@@ -229,11 +229,10 @@ def build_report_email(email, files_list, plan, score, findings, all_risks,
 {t['score']}    : {score}/100
 {t['critical']} : {nb_crit}
 {t['high']}     : {nb_high}
-{t['total']}    : {len(findings)} 
+{t['total']}    : {len(findings) + len(all_risks)}
 {t['mainnet']}  : {ms}
 {t['standard']} : CIP-0052
 {t['date']}     : {datetime.now().strftime("%Y-%m-%d %H:%M UTC")}
-{t['model']}    : {llm_model if llm_model else t['static_only']}
 
 {t['layer1_title']}
 {ft if ft else t['no_vulns']}{layer2_section}

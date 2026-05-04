@@ -261,7 +261,7 @@ def run_llm_analysis(contracts_dir, output_path, model=MODEL_PRO, lang="en"):
     print(f"  Contrats  : {list(contracts.keys())}")
 
     # Charger le rapport de la couche 1 si disponible
-    layer1_path = output_path.replace(".json", "_layer1.json")
+    layer1_path = str(Path(output_path).parent / "report.json")
     layer1 = {}
     try:
         layer1 = json.loads(Path(layer1_path).read_text())
