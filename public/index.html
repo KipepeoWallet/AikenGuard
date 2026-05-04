@@ -104,6 +104,68 @@
     nav { padding: 1rem; }
     .mission { margin: 1.5rem 1rem; }
   }
+
+.beta-banner {
+  background: linear-gradient(135deg, rgba(245,166,35,0.08), rgba(245,166,35,0.02));
+  border: 1px solid rgba(245,166,35,0.3);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin: 2rem auto;
+  max-width: 700px;
+  text-align: center;
+}
+.beta-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #f5a623;
+  margin-bottom: 0.5rem;
+}
+.beta-badge {
+  display: inline-block;
+  background: #f5a623;
+  color: #0d0c09;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: 0.5rem;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+.beta-sub {
+  color: #8a7e6a;
+  font-size: 0.88rem;
+  margin-bottom: 1.25rem;
+}
+.timer {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.timer-block {
+  background: #131109;
+  border: 1px solid #2a2416;
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  min-width: 65px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.timer-num {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #f5a623;
+  line-height: 1;
+}
+.timer-label {
+  font-size: 0.7rem;
+  color: #6a6050;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 0.25rem;
+}
+
 </style>
 </head>
 <body>
@@ -113,6 +175,7 @@
   <div class="nav-right">
     
     
+    <a href="/templates.html" style="color:#f5a623;font-weight:600;">Templates</a>
     <a href="https://github.com/KipepeoWallet/AikenGuard" target="_blank">GitHub</a>
     <a href="#" id="qualityGuideLink" target="_blank" data-i18n="nav_quality">Quality Guide</a>
     <div class="lang-sel">
@@ -154,6 +217,156 @@
   </div>
 </section>
 
+<!-- Widget Estimateur de coûts AikenGuard -->
+<!-- À insérer dans index.html avant la section #audit -->
+
+<section id="estimator" style="padding: 3rem 2rem; max-width: 700px; margin: 0 auto;">
+
+  <div style="text-align:center; margin-bottom: 2rem;">
+    <span style="display:inline-block; background:rgba(245,166,35,0.12); color:#f5a623; border:1px solid rgba(245,166,35,0.3); padding:0.3rem 1rem; border-radius:20px; font-size:0.78rem; letter-spacing:1px; text-transform:uppercase; margin-bottom:1rem;">🧮 Plan estimator</span>
+    <h2 style="font-size:1.8rem; font-weight:800; color:#f0e8d8; margin-bottom:0.5rem;" data-i18n="est_title">Not sure which plan?</h2>
+    <p style="color:#8a7e6a; font-size:0.9rem;" data-i18n="est_sub">Answer 3 questions — we recommend the right plan for you.</p>
+  </div>
+
+  <!-- Question 1 -->
+  <div class="est-card" style="background:#131109; border:1px solid #2a2416; border-radius:12px; padding:1.5rem; margin-bottom:1rem;">
+    <div style="font-size:0.85rem; color:#f5a623; font-weight:600; margin-bottom:0.75rem;" data-i18n="est_q1">1. How many .ak files?</div>
+    <div style="display:flex; gap:0.5rem; flex-wrap:wrap;" id="est-q1">
+      <button class="est-btn active" onclick="setQ(1,'1',this)">1 file</button>
+      <button class="est-btn" onclick="setQ(1,'2-3',this)">2–3 files</button>
+      <button class="est-btn" onclick="setQ(1,'4+',this)">4+ files</button>
+    </div>
+  </div>
+
+  <!-- Question 2 -->
+  <div class="est-card" style="background:#131109; border:1px solid #2a2416; border-radius:12px; padding:1.5rem; margin-bottom:1rem;">
+    <div style="font-size:0.85rem; color:#f5a623; font-weight:600; margin-bottom:0.75rem;" data-i18n="est_q2">2. Contract complexity?</div>
+    <div style="display:flex; gap:0.5rem; flex-wrap:wrap;" id="est-q2">
+      <button class="est-btn active" onclick="setQ(2,'simple',this)">Simple</button>
+      <button class="est-btn" onclick="setQ(2,'medium',this)">Medium</button>
+      <button class="est-btn" onclick="setQ(2,'complex',this)">Complex DeFi</button>
+    </div>
+  </div>
+
+  <!-- Question 3 -->
+  <div class="est-card" style="background:#131109; border:1px solid #2a2416; border-radius:12px; padding:1.5rem; margin-bottom:1.5rem;">
+    <div style="font-size:0.85rem; color:#f5a623; font-weight:600; margin-bottom:0.75rem;" data-i18n="est_q3">3. Do contracts interact with each other?</div>
+    <div style="display:flex; gap:0.5rem; flex-wrap:wrap;" id="est-q3">
+      <button class="est-btn active" onclick="setQ(3,'no',this)">No</button>
+      <button class="est-btn" onclick="setQ(3,'yes',this)">Yes — multi-contract</button>
+    </div>
+  </div>
+
+  <!-- Résultat -->
+  <div id="est-result" style="background:linear-gradient(135deg,rgba(245,166,35,0.1),rgba(245,166,35,0.05)); border:1px solid rgba(245,166,35,0.4); border-radius:12px; padding:1.5rem; transition:all 0.3s;">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+      <div>
+        <div style="font-size:0.75rem; color:#6a6050; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.3rem;" data-i18n="est_rec">Recommended plan</div>
+        <div id="est-plan-name" style="font-size:1.4rem; font-weight:800; color:#f5a623;">🔥 Beta — 10 ADA</div>
+        <div id="est-plan-desc" style="font-size:0.82rem; color:#8a7e6a; margin-top:0.3rem;">Full audit — Layer 1 + AI analysis. Beta price for 1 month only.</div>
+      </div>
+      <div style="text-align:right;">
+        <div id="est-plan-time" style="font-size:0.8rem; color:#6a6050;">⚡ ~30 seconds</div>
+        <div id="est-plan-what" style="font-size:0.75rem; color:#6a6050; margin-top:0.3rem;">21 detectors + Groq qwen3-32b</div>
+      </div>
+    </div>
+    <a id="est-cta" href="#audit" onclick="selectPlanFromEstimator(10)" style="display:inline-block; margin-top:1rem; background:#f5a623; color:#0d0c09; font-weight:700; font-size:0.88rem; padding:0.6rem 1.5rem; border-radius:8px; text-decoration:none;">Start with this plan →</a>
+  </div>
+
+</section>
+
+<style>
+.est-btn {
+  background: transparent;
+  border: 1px solid #2a2416;
+  color: #6a6050;
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.est-btn:hover { border-color: #f5a623; color: #f5a623; }
+.est-btn.active { background: rgba(245,166,35,0.15); border-color: #f5a623; color: #f5a623; font-weight: 600; }
+</style>
+
+<script>
+var estAnswers = { 1: '1', 2: 'simple', 3: 'no' };
+
+function setQ(q, val, btn) {
+  estAnswers[q] = val;
+  var group = document.getElementById('est-q' + q);
+  group.querySelectorAll('.est-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  updateEstimator();
+}
+
+function updateEstimator() {
+  var files = estAnswers[1];
+  var complexity = estAnswers[2];
+  var multi = estAnswers[3];
+
+  var plan, name, desc, time, what, ada;
+
+  // BETA PROMO: 10 ADA pour TOUS les plans pendant 1 mois
+  plan = 'beta';
+  ada = 10;
+  name = '🔥 Beta — 10 ADA';
+  desc = 'Full audit — Layer 1 + AI analysis. Beta price for 1 month only.';
+  time = '⚡ ~30 seconds';
+  what = '21 detectors + Groq qwen3-32b';
+  
+  // Logique normale (pour après la promo) — gardée en commentaire:
+  // if (complexity === 'complex' || multi === 'yes' || files === '4+') {
+  //   plan='certified'; ada=279; name='Certified — 279 ADA';
+  // } else if (files === '2-3' || complexity === 'medium') {
+  //   plan='pro'; ada=179; name='Pro — 179 ADA';
+  // } else {
+  //   plan='beta'; ada=10; name='🔥 Beta — 10 ADA';
+  // }
+
+  document.getElementById('est-plan-name').textContent = name;
+  document.getElementById('est-plan-desc').textContent = desc;
+  document.getElementById('est-plan-time').textContent = time;
+  document.getElementById('est-plan-what').textContent = what;
+  document.getElementById('est-cta').onclick = function() { selectPlanFromEstimator(ada); };
+  document.getElementById('est-cta').textContent = 'Start with this plan →';
+}
+
+function selectPlanFromEstimator(ada) {
+  if (typeof selectPlan === 'function') {
+    var btns = document.querySelectorAll('.plan-opt');
+    btns.forEach(function(b) {
+      if (b.textContent.includes(ada)) {
+        selectPlan(b, ada);
+      }
+    });
+  }
+  selectedADA = ada;
+  var adaEl = document.getElementById('adaAmt');
+  if (adaEl) adaEl.textContent = ada;
+}
+</script>
+
+<div style="background:rgba(245,166,35,0.07);border:1px solid rgba(245,166,35,0.3);border-radius:14px;padding:1.5rem 2rem;margin:0 2rem 2rem;max-width:960px;margin-left:auto;margin-right:auto;">
+  <div style="display:flex;align-items:flex-start;gap:1.5rem;flex-wrap:wrap;">
+    <div style="font-size:2rem;">⚡</div>
+    <div style="flex:1;">
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem;">
+        <span data-i18n="ak022_badge" style="background:#f5a623;color:#0d0c09;font-size:0.7rem;font-weight:700;padding:2px 10px;border-radius:4px;">NEW — AK-022</span>
+      </div>
+      <div style="font-size:1.1rem;font-weight:700;color:#f0e8d8;margin-bottom:0.4rem;" data-i18n="ak022_title">The only tool that estimates your execution costs</div>
+      <div style="font-size:0.85rem;color:#8a7e6a;line-height:1.7;" data-i18n="ak022_sub">AikenGuard detects vulnerabilities AND estimates CPU/Memory execution costs before deployment. No more surprises on mainnet.</div>
+    </div>
+    <div style="text-align:center;background:rgba(13,12,9,0.5);border:1px solid #2a2416;border-radius:10px;padding:1rem 1.5rem;min-width:140px;">
+      <div style="font-size:0.7rem;color:#6a6050;text-transform:uppercase;letter-spacing:0.5px;">CPU max</div>
+      <div style="font-size:1.3rem;font-weight:800;color:#f5a623;">10B</div>
+      <div style="font-size:0.7rem;color:#6a6050;margin-top:0.5rem;text-transform:uppercase;letter-spacing:0.5px;">Memory max</div>
+      <div style="font-size:1.3rem;font-weight:800;color:#f5a623;">14M</div>
+    </div>
+  </div>
+</div>
+
 <div class="beta-banner" id="betaBanner">
   <div class="beta-title">🔥 Beta Launch — Limited Time Offer <span class="beta-badge">BETA</span></div>
   <div class="beta-sub" data-i18n="beta_sub">Try AikenGuard for only 10 ADA — full audit included. Offer ends in:</div>
@@ -192,7 +405,11 @@
 <div class="pricing">
     <div class="plan">
       <div class="plan-name" data-i18n="plan1_name">Starter</div>
-      <div class="plan-price">79 <span>ADA</span></div>
+      <div class="plan-price">
+        <span style="text-decoration:line-through;color:#6a6050;font-size:0.5em;font-weight:400;">79 ADA</span><br>
+        10 <span>ADA</span>
+        <div style="font-size:0.65rem;color:#f5a623;font-weight:600;margin-top:0.25rem;letter-spacing:0.5px;">🔥 BETA — 87% OFF</div>
+      </div>
       <div class="plan-desc" data-i18n="plan1_desc">Static analysis for simple contracts. Results in minutes.</div>
       <ul>
         <li data-i18n="plan1_f1">15 security detectors</li>
@@ -203,7 +420,11 @@
     <div class="plan featured">
       <div class="pop-badge" data-i18n="popular">Most popular</div>
       <div class="plan-name">Pro</div>
-      <div class="plan-price">179 <span>ADA</span></div>
+      <div class="plan-price">
+        <span style="text-decoration:line-through;color:#6a6050;font-size:0.5em;font-weight:400;">179 ADA</span><br>
+        10 <span>ADA</span>
+        <div style="font-size:0.65rem;color:#f5a623;font-weight:600;margin-top:0.25rem;letter-spacing:0.5px;">🔥 BETA — 94% OFF</div>
+      </div>
       <div class="plan-desc" data-i18n="plan2_desc">Full AI analysis. Recommended before mainnet deployment.</div>
       <ul>
         <li data-i18n="plan2_f1">Static + AI analysis</li>
@@ -214,7 +435,11 @@
     </div>
     <div class="plan">
       <div class="plan-name" data-i18n="plan3_name">Certified</div>
-      <div class="plan-price">279 <span>ADA</span></div>
+      <div class="plan-price">
+        <span style="text-decoration:line-through;color:#6a6050;font-size:0.5em;font-weight:400;">279 ADA</span><br>
+        10 <span>ADA</span>
+        <div style="font-size:0.65rem;color:#f5a623;font-weight:600;margin-top:0.25rem;letter-spacing:0.5px;">🔥 BETA — 96% OFF</div>
+      </div>
       <div class="plan-desc" data-i18n="plan3_desc">Full audit + on-chain NFT certification on Cardano.</div>
       <ul>
         <li data-i18n="plan3_f1">Everything in Pro</li>
@@ -251,9 +476,9 @@
       <label class="form-label" data-i18n="form_plan_label">🎯 Choose your plan</label>
       <div class="plan-sel">
         <div class="plan-opt active" onclick="selectPlan(this,10)"><div class="p" style="color:#f5a623;">10 ADA</div><div class="n">🔥 Beta</div></div>
-      <div class="plan-opt" onclick="selectPlan(this,79)"><div class="p">79 ADA</div><div class="n">Starter</div></div>
-        <div class="plan-opt" onclick="selectPlan(this,179)"><div class="p">179 ADA</div><div class="n">Pro</div></div>
-        <div class="plan-opt" onclick="selectPlan(this,279)"><div class="p">279 ADA</div><div class="n" data-i18n="plan3_name">Certified</div></div>
+      <div class="plan-opt" onclick="selectPlan(this,10)"><div class="p"><span style="text-decoration:line-through;font-size:0.6em;color:#6a6050;">79</span> 10 ADA</div><div class="n">Starter (Beta)</div></div>
+        <div class="plan-opt" onclick="selectPlan(this,10)"><div class="p"><span style="text-decoration:line-through;font-size:0.6em;color:#6a6050;">179</span> 10 ADA</div><div class="n">Pro (Beta)</div></div>
+        <div class="plan-opt" onclick="selectPlan(this,10)"><div class="p"><span style="text-decoration:line-through;font-size:0.6em;color:#6a6050;">279</span> 10 ADA</div><div class="n" data-i18n="plan3_name">Certified (Beta)</div></div>
       </div>
     </div>
 
@@ -291,13 +516,26 @@ const T = {
     beta_f3: "CIP-0052 PDF report",
     beta_f4: "Multi-contract risk detection",
     beta_f5: "Your feedback shapes AikenGuard",
+    ak022_badge: "NEW — AK-022",
+    ak022_title: "The only tool that estimates your transaction costs",
+    ak022_sub: "AikenGuard detects vulnerabilities AND estimates CPU/Memory execution costs before deployment. No more surprises on mainnet.",
+    est_title: "Not sure which plan?",
+    est_sub: "Answer 3 questions — we recommend the right plan for you.",
+    est_q1: "1. How many .ak files?",
+    est_q2: "2. Contract complexity?",
+    est_q3: "3. Do contracts interact with each other?",
+    est_rec: "Recommended plan",
     badge: "⚡ Cardano native · eUTxO security",
     hero_title_1: "Firestarter for the", hero_title_2: "Cardano community",
     hero_sub: "We help Cardano developers write better contracts before going to a human auditor. When every developer cleans up as many flaws as possible, the whole community becomes stronger and more secure.",
     fear: "⚠️ A single undetected vulnerability can lock funds permanently on-chain.",
     mission_title: "Our mission",
     mission_text: "AikenGuard is a simple, fast and powerful tool that automatically analyzes your Aiken smart contracts — so you arrive at your human audit cleaner, smarter, and ready to deploy with confidence. We believe security should be accessible to every Cardano developer, not just those with $15,000 for a full manual audit.",
-    stat1: "Security & quality detectors", stat2: "CTF detection rate", stat3: "Analysis layers", stat4: "Compliant reports",
+    stat1: "Security & quality detectors",
+    ak022_title: "The only tool that estimates your execution costs",
+    ak022_sub: "AikenGuard detects vulnerabilities AND estimates CPU/Memory execution costs before deployment. No more surprises on mainnet.",
+    ak022_badge: "NEW — AK-022",
+    stat2: "CTF detection rate", stat3: "Analysis layers", stat4: "Compliant reports",
     how_title: "How it works", how_sub: "From upload to certified report in under 30 minutes.",
     step1_title: "Upload contracts", step1_text: "Upload your .ak files directly on this page. No email, no account needed.",
     step2_title: "Static analysis", step2_text: "15 detectors scan for eUTxO-specific vulnerabilities instantly.",
@@ -339,6 +577,15 @@ const T = {
     beta_f3: "Rapport PDF CIP-0052",
     beta_f4: "Détection risques multi-contrats",
     beta_f5: "Votre feedback améliore AikenGuard",
+    ak022_badge: "NOUVEAU — AK-022",
+    ak022_title: "Le seul outil qui estime vos coûts de transaction",
+    ak022_sub: "AikenGuard détecte les vulnérabilités ET estime les coûts d'exécution CPU/Memory avant déploiement. Plus jamais de mauvaises surprises sur mainnet.",
+    est_title: "Pas sûr du bon plan ?",
+    est_sub: "Répondez à 3 questions — nous vous recommandons le bon plan.",
+    est_q1: "1. Combien de fichiers .ak ?",
+    est_q2: "2. Complexité du contrat ?",
+    est_q3: "3. Les contrats interagissent-ils ?",
+    est_rec: "Plan recommandé",
     badge: "⚡ Natif Cardano · Sécurité eUTxO",
     hero_title_1: "Firestarter pour la", hero_title_2: "communauté Cardano",
     hero_sub: "Nous aidons les développeurs Cardano à écrire de meilleurs contrats avant de passer chez un auditeur humain. Quand chaque développeur corrige un maximum de failles, toute la communauté devient plus forte et plus sécurisée.",
@@ -387,6 +634,15 @@ const T = {
     beta_f3: "Informe PDF CIP-0052",
     beta_f4: "Detección de riesgos multi-contrato",
     beta_f5: "Tu feedback mejora AikenGuard",
+    ak022_badge: "NUEVO — AK-022",
+    ak022_title: "La única herramienta que estima tus costos de transacción",
+    ak022_sub: "AikenGuard detecta vulnerabilidades Y estima los costos CPU/Memory antes del despliegue. Sin sorpresas en mainnet.",
+    est_title: "¿No sabes qué plan elegir?",
+    est_sub: "Responde 3 preguntas — te recomendamos el plan adecuado.",
+    est_q1: "1. ¿Cuántos archivos .ak?",
+    est_q2: "2. ¿Complejidad del contrato?",
+    est_q3: "3. ¿Los contratos interactúan entre sí?",
+    est_rec: "Plan recomendado",
     badge: "⚡ Nativo de Cardano · Seguridad eUTxO",
     hero_title_1: "Firestarter para la", hero_title_2: "comunidad Cardano",
     hero_sub: "Ayudamos a los desarrolladores de Cardano a escribir mejores contratos antes de ir a un auditor humano. Cuando cada desarrollador corrige el máximo de fallos posible, toda la comunidad se vuelve más fuerte y más segura.",
@@ -526,6 +782,7 @@ async function submitAudit() {
   if (selectedFiles.length === 0) { showStatus(t.err_file, true); return; }
   const formData = new FormData();
   formData.append('email', email);
+    formData.append('lang', currentLang || 'en');
   formData.append('plan', selectedADA.toString());
   for (let f of selectedFiles) formData.append('files', f);
   showStatus(t.uploading, false);

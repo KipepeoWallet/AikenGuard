@@ -87,26 +87,31 @@ footer a { color: #f5a623; text-decoration: none; }
     <img src="https://raw.githubusercontent.com/KipepeoWallet/AikenGuard/main/AikenGuard_logo.jpg" alt="AikenGuard">
     Aiken<span>Guard</span>
   </a>
-  <div>
+  <div style="display:flex;align-items:center;gap:0.5rem;">
     <a href="https://github.com/KipepeoWallet/AikenGuard" target="_blank">GitHub</a>
     <a href="https://github.com/KipepeoWallet/AikenGuard/blob/main/QUALITY_GUIDE.md" target="_blank">Quality Guide</a>
-    <a href="/" class="nav-back">← Back to Audit</a>
+    <a href="/" class="nav-back">← Audit</a>
+    <div style="display:flex;gap:0.25rem;margin-left:0.5rem;">
+      <button class="lang-btn active" data-lang="en" onclick="setLang('en')" style="background:transparent;border:1px solid #2a2416;color:#6a6050;padding:3px 8px;border-radius:4px;font-size:0.75rem;cursor:pointer;">EN</button>
+      <button class="lang-btn" data-lang="fr" onclick="setLang('fr')" style="background:transparent;border:1px solid #2a2416;color:#6a6050;padding:3px 8px;border-radius:4px;font-size:0.75rem;cursor:pointer;">FR</button>
+      <button class="lang-btn" data-lang="es" onclick="setLang('es')" style="background:transparent;border:1px solid #2a2416;color:#6a6050;padding:3px 8px;border-radius:4px;font-size:0.75rem;cursor:pointer;">ES</button>
+    </div>
   </div>
 </nav>
 
 <div class="hero">
-  <div class="badge">🛡️ Cardano native · Community Hub</div>
-  <h1>Certified <span>Templates</span> Hub</h1>
-  <p class="hero-sub">Aiken smart contract templates audited and certified by AikenGuard. Download, customize, and deploy with confidence.</p>
+  <div class="badge" data-i18n="hub_badge">🛡️ Cardano native · Community Hub</div>
+  <h1 data-i18n="hub_title">Certified <span>Templates</span> Hub</h1>
+  <p class="hero-sub" data-i18n="hub_sub">Aiken smart contract templates audited and certified by AikenGuard. Download, customize, and deploy with confidence.</p>
 </div>
 
 <div class="mission">
-  We centralize the best Aiken templates from the community — each one audited, scored, and ready to use. We believe in applying community standards, not inventing them. All credits to the original authors.
+  <span data-i18n="hub_mission">We centralize the best Aiken templates from the community — each one audited, scored, and ready to use. We believe in applying community standards, not inventing them. All credits to the original authors.</span>
 </div>
 
 <div class="filter-bar">
-  <button class="filter-btn active" onclick="filterCards('all', this)">All</button>
-  <button class="filter-btn" onclick="filterCards('certified', this)">✅ Certified</button>
+  <button class="filter-btn active" data-i18n="filter_all" onclick="filterCards('all', this)">All</button>
+  <button class="filter-btn" data-i18n="filter_certified" onclick="filterCards('certified', this)">✅ Certified</button>
   <button class="filter-btn" onclick="filterCards('vesting', this)">Vesting</button>
   <button class="filter-btn" onclick="filterCards('escrow', this)">Escrow</button>
   <button class="filter-btn" onclick="filterCards('multisig', this)">Multisig</button>
@@ -124,11 +129,11 @@ footer a { color: #f5a623; text-decoration: none; }
         <div class="card-author">by aiken-lang</div>
       </div>
       <div class="score-badge">
-        <div class="score-num score-amber">?</div>
-        <div class="score-label">pending</div>
+        <div class="score-num score-amber">85</div>
+        <div class="score-label">/ 100</div>
       </div>
     </div>
-    <span class="verdict-badge verdict-pending">⏳ Audit Pending</span>
+    <span class="verdict-badge verdict-needs">⚠️ Needs fixes</span>
     <p class="card-desc">Locks ADA for a period of time and unlocks it for a beneficiary after a specified date. Official example from aiken-lang.</p>
     <div class="card-tags">
       <span class="tag">vesting</span>
@@ -150,11 +155,11 @@ footer a { color: #f5a623; text-decoration: none; }
         <div class="card-author">by aiken-lang</div>
       </div>
       <div class="score-badge">
-        <div class="score-num score-amber">?</div>
+        <div class="score-num score-red">60</div>
         <div class="score-label">pending</div>
       </div>
     </div>
-    <span class="verdict-badge verdict-pending">⏳ Audit Pending</span>
+    <span class="verdict-badge verdict-needs">⚠️ Needs fixes</span>
     <p class="card-desc">Redeemable NFT gift cards with validator logic and blueprint structure. Official example dApp from aiken-lang.</p>
     <div class="card-tags">
       <span class="tag">nft</span>
@@ -176,11 +181,11 @@ footer a { color: #f5a623; text-decoration: none; }
         <div class="card-author">by MeshJS</div>
       </div>
       <div class="score-badge">
-        <div class="score-num score-amber">?</div>
-        <div class="score-label">pending</div>
+        <div class="score-num score-red">65</div>
+        <div class="score-label">/ 100</div>
       </div>
     </div>
-    <span class="verdict-badge verdict-pending">⏳ Audit Pending</span>
+    <span class="verdict-badge verdict-needs">⚠️ Needs fixes</span>
     <p class="card-desc">Production-ready escrow contract with royalty and swap support. Ready to customize and deploy. Official MeshJS template.</p>
     <div class="card-tags">
       <span class="tag">escrow</span>
@@ -203,11 +208,11 @@ footer a { color: #f5a623; text-decoration: none; }
         <div class="card-author">by Anastasia Labs</div>
       </div>
       <div class="score-badge">
-        <div class="score-num score-amber">?</div>
+        <div class="score-num score-red">65</div>
         <div class="score-label">pending</div>
       </div>
     </div>
-    <span class="verdict-badge verdict-pending">⏳ Audit Pending</span>
+    <span class="verdict-badge verdict-needs">⚠️ Needs fixes</span>
     <p class="card-desc">Upgradable multisig with NFT-based state management, threshold validation, and dynamic signer management. Prevents replay attacks.</p>
     <div class="card-tags">
       <span class="tag">multisig</span>
@@ -230,11 +235,11 @@ footer a { color: #f5a623; text-decoration: none; }
         <div class="card-author">by aiken-lang</div>
       </div>
       <div class="score-badge">
-        <div class="score-num score-amber">?</div>
+        <div class="score-num score-amber">75</div>
         <div class="score-label">pending</div>
       </div>
     </div>
-    <span class="verdict-badge verdict-pending">⏳ Audit Pending</span>
+    <span class="verdict-badge verdict-needs">⚠️ Needs fixes</span>
     <p class="card-desc">An escrow mechanism that redirects funds into an index fund. Creative DeFi pattern for Cardano.</p>
     <div class="card-tags">
       <span class="tag">escrow</span>
@@ -256,11 +261,11 @@ footer a { color: #f5a623; text-decoration: none; }
         <div class="card-author">by Vacuumlabs CTF</div>
       </div>
       <div class="score-badge">
-        <div class="score-num score-amber">?</div>
+        <div class="score-num score-amber">75</div>
         <div class="score-label">pending</div>
       </div>
     </div>
-    <span class="verdict-badge verdict-pending">⏳ Audit Pending</span>
+    <span class="verdict-badge verdict-needs">⚠️ Needs fixes</span>
     <p class="card-desc">The famous Vacuumlabs CTF tipjar with AK-016 vulnerability corrected — datum owner properly verified against external source.</p>
     <div class="card-tags">
       <span class="tag">tipjar</span>
@@ -278,12 +283,12 @@ footer a { color: #f5a623; text-decoration: none; }
 
 <!-- Contribute section -->
 <div class="contribute" style="margin: 0 2rem 4rem; max-width: 1056px; margin-left: auto; margin-right: auto;">
-  <h3>🤝 Contribute a Template</h3>
+  <h3 data-i18n="contribute_title">🤝 Contribute a Template</h3>
   <p style="margin-top: 0.5rem;">
     Have an Aiken template you'd like to see certified? Submit it to our GitHub and we'll audit it for free.<br>
     All credits go to the original authors. Together we make Cardano stronger.<br><br>
-    <a href="https://github.com/KipepeoWallet/AikenGuard" target="_blank">→ Submit on GitHub</a> &nbsp;·&nbsp;
-    <a href="mailto:audit@aikenguard.io">→ Contact us</a>
+    <a href="https://github.com/KipepeoWallet/AikenGuard" target="_blank" data-i18n="btn_submit">→ Submit on GitHub</a> &nbsp;·&nbsp;
+    <a href="mailto:audit@aikenguard.io" data-i18n="btn_contact">→ Contact us</a>
   </p>
 </div>
 
@@ -293,6 +298,59 @@ footer a { color: #f5a623; text-decoration: none; }
 </footer>
 
 <script>
+const T = {
+  en: {
+    hub_badge: "🛡️ Cardano native · Community Hub",
+    hub_title: "Certified Templates Hub",
+    hub_sub: "Aiken smart contract templates audited and certified by AikenGuard. Download, customize, and deploy with confidence.",
+    hub_mission: "<span data-i18n="hub_mission">We centralize the best Aiken templates from the community — each one audited, scored, and ready to use. We believe in applying community standards, not inventing them. All credits to the original authors.</span>",
+    filter_all: "All",
+    filter_certified: "✅ Certified",
+    contribute_title: "🤝 Contribute a Template",
+    contribute_text: "Have an Aiken template you'd like to see certified? Submit it to our GitHub and we'll audit it for free. All credits go to the original authors. Together we make Cardano stronger.",
+    btn_submit: "→ Submit on GitHub",
+    btn_contact: "→ Contact us",
+  },
+  fr: {
+    hub_badge: "🛡️ Natif Cardano · Hub communautaire",
+    hub_title: "Hub de Templates Certifiés",
+    hub_sub: "Templates de smart contracts Aiken audités et certifiés par AikenGuard. Téléchargez, personnalisez et déployez en toute confiance.",
+    hub_mission: "Nous centralisons les meilleurs templates Aiken de la communauté — chacun audité, scoré, et prêt à l'emploi. Nous appliquons les standards de la communauté, sans les réinventer. Tous les crédits vont aux auteurs originaux.",
+    filter_all: "Tous",
+    filter_certified: "✅ Certifiés",
+    contribute_title: "🤝 Contribuer un Template",
+    contribute_text: "Vous avez un template Aiken à faire certifier ? Soumettez-le sur GitHub et nous l'auditerons gratuitement. Tous les crédits vont aux auteurs originaux. Ensemble nous renforçons Cardano.",
+    btn_submit: "→ Soumettre sur GitHub",
+    btn_contact: "→ Nous contacter",
+  },
+  es: {
+    hub_badge: "🛡️ Nativo Cardano · Hub comunitario",
+    hub_title: "Hub de Templates Certificados",
+    hub_sub: "Templates de smart contracts Aiken auditados y certificados por AikenGuard. Descarga, personaliza y despliega con confianza.",
+    hub_mission: "Centralizamos los mejores templates Aiken de la comunidad — cada uno auditado, puntuado y listo para usar. Aplicamos los estándares de la comunidad, sin inventarlos. Todo el crédito va a los autores originales.",
+    filter_all: "Todos",
+    filter_certified: "✅ Certificados",
+    contribute_title: "🤝 Contribuir un Template",
+    contribute_text: "¿Tienes un template Aiken para certificar? Envíalo a GitHub y lo auditaremos gratis. Todo el crédito va a los autores originales. Juntos hacemos Cardano más fuerte.",
+    btn_submit: "→ Enviar en GitHub",
+    btn_contact: "→ Contáctanos",
+  }
+};
+
+function setLang(lang) {
+  localStorage.setItem('ag_lang', lang);
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.lang-btn[data-lang="' + lang + '"]').classList.add('active');
+  const t = T[lang] || T.en;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key]) el.textContent = t[key];
+  });
+}
+
+const saved = localStorage.getItem('ag_lang') || 'en';
+setTimeout(() => setLang(saved), 100);
+
 function filterCards(tag, btn) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
