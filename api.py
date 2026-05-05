@@ -73,6 +73,15 @@ EMAIL_TEMPLATES = {
         "ready":         "Ready for mainnet",
         "needs_fix":     "Corrections recommended before mainnet",
         "footer":        "For questions reply to this email.",
+        "costs_title":   "ESTIMATED EXECUTION COSTS",
+        "costs_cpu":     "CPU",
+        "costs_memory":  "Memory",
+        "costs_validators": "Validators",
+        "costs_decoding": "Data decoding",
+        "costs_refinputs": "Reference inputs",
+        "costs_risk":    "risk(s) detected",
+        "costs_ok":      "OK",
+        "costs_no_risk": "  No cost risk detected",
         # Confirmation email
         "confirm_subject": "AikenGuard -- Contracts received! Send {plan} ADA",
         "confirm_body":    "Files: {files}\nSend {plan} ADA to:\n{wallet}\nInclude your email in metadata.",
@@ -98,6 +107,15 @@ EMAIL_TEMPLATES = {
         "ready":         "Prêt pour le mainnet",
         "needs_fix":     "Corrections recommandées avant mainnet",
         "footer":        "Pour toute question, répondez à ce courriel.",
+        "costs_title":   "ESTIMATION DES COÛTS D'EXÉCUTION",
+        "costs_cpu":     "CPU",
+        "costs_memory":  "Mémoire",
+        "costs_validators": "Validateurs",
+        "costs_decoding": "Décodage Data",
+        "costs_refinputs": "Reference inputs",
+        "costs_risk":    "risque(s) détecté(s)",
+        "costs_ok":      "OK",
+        "costs_no_risk": "  Aucun risque de coût détecté",
         # Confirmation email
         "confirm_subject": "AikenGuard -- Contrats reçus ! Envoyez {plan} ADA",
         "confirm_body":    "Fichiers : {files}\nEnvoyez {plan} ADA à :\n{wallet}\nIncluez votre courriel dans les métadonnées.",
@@ -123,6 +141,15 @@ EMAIL_TEMPLATES = {
         "ready":         "Listo para mainnet",
         "needs_fix":     "Correcciones recomendadas antes de mainnet",
         "footer":        "Para preguntas, responda a este correo.",
+        "costs_title":   "ESTIMACIÓN DE COSTOS DE EJECUCIÓN",
+        "costs_cpu":     "CPU",
+        "costs_memory":  "Memoria",
+        "costs_validators": "Validadores",
+        "costs_decoding": "Decodificación de datos",
+        "costs_refinputs": "Reference inputs",
+        "costs_risk":    "riesgo(s) detectado(s)",
+        "costs_ok":      "OK",
+        "costs_no_risk": "  Sin riesgos de costo detectados",
         # Confirmation email
         "confirm_subject": "AikenGuard -- ¡Contratos recibidos! Envíe {plan} ADA",
         "confirm_body":    "Archivos: {files}\nEnvíe {plan} ADA a:\n{wallet}\nIncluya su correo en los metadatos.",
@@ -219,6 +246,34 @@ def build_report_email(email, files_list, plan, score, findings, all_risks,
     # Section couche 2 (seulement si findings IA)
     layer2_section = f"\n{t['layer2_title']}\n{lt}" if all_risks else ""
 
+    # Section coûts (AK-022a-e)
+    ak022_findings = [f for f in findings if f.get('rule_id', '').startswith('AK-022')]
+    cpu_count        = len([f for f in ak022_findings if f.get('rule_id') == 'AK-022a'])
+    memory_count     = len([f for f in ak022_findings if f.get('rule_id') == 'AK-022b'])
+    validators_count = len([f for f in ak022_findings if f.get('rule_id') == 'AK-022c'])
+    decoding_count   = len([f for f in ak022_findings if f.get('rule_id') == 'AK-022d'])
+    refinputs_count  = len([f for f in ak022_findings if f.get('rule_id') == 'AK-022e'])
+
+    def fmt_cost(count):
+        if count == 0:
+            return f"✅ {t['costs_ok']}"
+        return f"⚠️  {count} {t['costs_risk']}"
+
+    if ak022_findings:
+        costs_section = f"""
+💰 {t['costs_title']}
+   {t['costs_cpu']:11s}: {fmt_cost(cpu_count)}
+   {t['costs_memory']:11s}: {fmt_cost(memory_count)}
+   {t['costs_validators']:11s}: {fmt_cost(validators_count)}
+   {t['costs_decoding']:11s}: {fmt_cost(decoding_count)}
+   {t['costs_refinputs']:11s}: {fmt_cost(refinputs_count)}
+"""
+    else:
+        costs_section = f"""
+💰 {t['costs_title']}
+{t['costs_no_risk']}
+"""
+
     body = f"""{t['greeting']}
 
 {t['intro']}
@@ -233,7 +288,7 @@ def build_report_email(email, files_list, plan, score, findings, all_risks,
 {t['mainnet']}  : {ms}
 {t['standard']} : CIP-0052
 {t['date']}     : {datetime.now().strftime("%Y-%m-%d %H:%M UTC")}
-
+{costs_section}
 {t['layer1_title']}
 {ft if ft else t['no_vulns']}{layer2_section}
 
