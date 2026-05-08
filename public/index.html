@@ -81,11 +81,7 @@
   .plan-opt.active { border-color: #f5a623; background: rgba(245,166,35,0.08); }
   .plan-opt .p { font-size: 1.1rem; font-weight: 700; color: #f5a623; }
   .plan-opt .n { font-size: 0.72rem; color: #6a6050; margin-top: 2px; }
-  .ada-box { background: #0d0c09; border: 1px solid rgba(245,166,35,0.35); border-radius: 10px; padding: 1.25rem; margin-top: 0.5rem; }
-  .ada-box h3 { font-size: 0.88rem; color: #f5a623; margin-bottom: 0.6rem; }
-  .ada-addr { font-family: monospace; font-size: 0.72rem; color: #f5a623; word-break: break-all; background: #131109; padding: 0.75rem; border-radius: 6px; cursor: pointer; transition: background 0.2s; }
-  .ada-addr:hover { background: #1a1508; }
-  .ada-hint { font-size: 0.72rem; color: #4a4030; margin-top: 0.5rem; }
+
   .trust-badges { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1rem 0; }
   .trust-badge { display: flex; align-items: center; gap: 0.35rem; font-size: 0.75rem; color: #6a6050; }
   .submit-btn { width: 100%; padding: 0.9rem; font-size: 1rem; font-weight: 700; border-radius: 10px; background: #f5a623; color: #0d0c09; border: none; cursor: pointer; margin-top: 1.25rem; transition: opacity 0.2s; }
@@ -103,11 +99,12 @@
     .stats { flex-wrap: wrap; }
     nav { padding: 1rem; }
     .mission { margin: 1.5rem 1rem; }
+    .plan-sel { grid-template-columns: 1fr; }
   }
 
 .beta-banner {
-  background: linear-gradient(135deg, rgba(245,166,35,0.08), rgba(245,166,35,0.02));
-  border: 1px solid rgba(245,166,35,0.3);
+  background: linear-gradient(135deg, rgba(0,204,102,0.1), rgba(0,204,102,0.03));
+  border: 1px solid rgba(0,204,102,0.4);
   border-radius: 16px;
   padding: 1.5rem;
   margin: 2rem auto;
@@ -117,12 +114,12 @@
 .beta-title {
   font-size: 1.25rem;
   font-weight: 800;
-  color: #f5a623;
+  color: #00cc66;
   margin-bottom: 0.5rem;
 }
 .beta-badge {
   display: inline-block;
-  background: #f5a623;
+  background: #00cc66;
   color: #0d0c09;
   font-size: 0.7rem;
   padding: 2px 8px;
@@ -155,7 +152,7 @@
 .timer-num {
   font-size: 1.6rem;
   font-weight: 800;
-  color: #f5a623;
+  color: #00cc66;
   line-height: 1;
 }
 .timer-label {
@@ -166,6 +163,39 @@
   margin-top: 0.25rem;
 }
 
+.free-badge {
+  display: inline-block;
+  background: #00cc66;
+  color: #0d0c09;
+  font-size: 0.7rem;
+  padding: 2px 10px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+.free-notice {
+  background: rgba(0,204,102,0.08);
+  border: 1px solid rgba(0,204,102,0.3);
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+.free-notice h3 { color: #00cc66; font-size: 0.95rem; margin-bottom: 0.4rem; }
+.free-notice p { color: #8a7e6a; font-size: 0.82rem; }
+
+.plan-beta {
+  background: linear-gradient(135deg, rgba(0,204,102,0.08), rgba(0,204,102,0.02));
+  border: 2px solid rgba(0,204,102,0.4);
+  border-radius: 14px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.plan-beta ul { list-style: none; }
+.plan-beta ul li { font-size: 0.8rem; color: #9a8e78; padding: 0.25rem 0 0.25rem 1rem; position: relative; }
+.plan-beta ul li::before { content: "✓"; position: absolute; left: 0; color: #00cc66; }
+
 </style>
 </head>
 <body>
@@ -173,8 +203,6 @@
 <nav>
   <div class="logo"><img src="https://raw.githubusercontent.com/KipepeoWallet/AikenGuard/main/AikenGuard_logo.jpg" height="45" style="border-radius:50%;vertical-align:middle;margin-right:8px;">Aiken<span>Guard</span></div>
   <div class="nav-right">
-    
-    
     <a href="/templates.html" style="color:#f5a623;font-weight:600;">Templates</a>
     <a href="https://github.com/KipepeoWallet/AikenGuard" target="_blank">GitHub</a>
     <a href="#" id="qualityGuideLink" target="_blank" data-i18n="nav_quality">Quality Guide</a>
@@ -183,7 +211,7 @@
       <button class="lang-btn" onclick="setLang('fr')">FR</button>
       <button class="lang-btn" onclick="setLang('es')">ES</button>
     </div>
-    <a href="#audit" class="nav-audit" data-i18n="nav_cta">Get audit →</a>
+    <a href="#audit" class="nav-audit" data-i18n="nav_cta">Get free audit →</a>
   </div>
 </nav>
 
@@ -217,18 +245,14 @@
   </div>
 </section>
 
-<!-- Widget Estimateur de coûts AikenGuard -->
-<!-- À insérer dans index.html avant la section #audit -->
-
+<!-- Widget Estimateur -->
 <section id="estimator" style="padding: 3rem 2rem; max-width: 700px; margin: 0 auto;">
-
   <div style="text-align:center; margin-bottom: 2rem;">
     <span style="display:inline-block; background:rgba(245,166,35,0.12); color:#f5a623; border:1px solid rgba(245,166,35,0.3); padding:0.3rem 1rem; border-radius:20px; font-size:0.78rem; letter-spacing:1px; text-transform:uppercase; margin-bottom:1rem;">🧮 Plan estimator</span>
     <h2 style="font-size:1.8rem; font-weight:800; color:#f0e8d8; margin-bottom:0.5rem;" data-i18n="est_title">Not sure which plan?</h2>
     <p style="color:#8a7e6a; font-size:0.9rem;" data-i18n="est_sub">Answer 3 questions — we recommend the right plan for you.</p>
   </div>
 
-  <!-- Question 1 -->
   <div class="est-card" style="background:#131109; border:1px solid #2a2416; border-radius:12px; padding:1.5rem; margin-bottom:1rem;">
     <div style="font-size:0.85rem; color:#f5a623; font-weight:600; margin-bottom:0.75rem;" data-i18n="est_q1">1. How many .ak files?</div>
     <div style="display:flex; gap:0.5rem; flex-wrap:wrap;" id="est-q1">
@@ -238,7 +262,6 @@
     </div>
   </div>
 
-  <!-- Question 2 -->
   <div class="est-card" style="background:#131109; border:1px solid #2a2416; border-radius:12px; padding:1.5rem; margin-bottom:1rem;">
     <div style="font-size:0.85rem; color:#f5a623; font-weight:600; margin-bottom:0.75rem;" data-i18n="est_q2">2. Contract complexity?</div>
     <div style="display:flex; gap:0.5rem; flex-wrap:wrap;" id="est-q2">
@@ -248,7 +271,6 @@
     </div>
   </div>
 
-  <!-- Question 3 -->
   <div class="est-card" style="background:#131109; border:1px solid #2a2416; border-radius:12px; padding:1.5rem; margin-bottom:1.5rem;">
     <div style="font-size:0.85rem; color:#f5a623; font-weight:600; margin-bottom:0.75rem;" data-i18n="est_q3">3. Do contracts interact with each other?</div>
     <div style="display:flex; gap:0.5rem; flex-wrap:wrap;" id="est-q3">
@@ -257,22 +279,20 @@
     </div>
   </div>
 
-  <!-- Résultat -->
-  <div id="est-result" style="background:linear-gradient(135deg,rgba(245,166,35,0.1),rgba(245,166,35,0.05)); border:1px solid rgba(245,166,35,0.4); border-radius:12px; padding:1.5rem; transition:all 0.3s;">
+  <div id="est-result" style="background:linear-gradient(135deg,rgba(0,204,102,0.1),rgba(0,204,102,0.05)); border:1px solid rgba(0,204,102,0.4); border-radius:12px; padding:1.5rem; transition:all 0.3s;">
     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
       <div>
         <div style="font-size:0.75rem; color:#6a6050; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.3rem;" data-i18n="est_rec">Recommended plan</div>
-        <div id="est-plan-name" style="font-size:1.4rem; font-weight:800; color:#f5a623;">🔥 Beta — 10 ADA</div>
-        <div id="est-plan-desc" style="font-size:0.82rem; color:#8a7e6a; margin-top:0.3rem;">Full audit — Layer 1 + AI analysis. Beta price for 1 month only.</div>
+        <div id="est-plan-name" style="font-size:1.4rem; font-weight:800; color:#00cc66;">🎁 FREE — Community Launch</div>
+        <div id="est-plan-desc" style="font-size:0.82rem; color:#8a7e6a; margin-top:0.3rem;">Full audit — Layer 1 + AI analysis. Free until June 8, 2026.</div>
       </div>
       <div style="text-align:right;">
         <div id="est-plan-time" style="font-size:0.8rem; color:#6a6050;">⚡ ~30 seconds</div>
         <div id="est-plan-what" style="font-size:0.75rem; color:#6a6050; margin-top:0.3rem;">21 detectors + Groq qwen3-32b</div>
       </div>
     </div>
-    <a id="est-cta" href="#audit" onclick="selectPlanFromEstimator(10)" style="display:inline-block; margin-top:1rem; background:#f5a623; color:#0d0c09; font-weight:700; font-size:0.88rem; padding:0.6rem 1.5rem; border-radius:8px; text-decoration:none;">Start with this plan →</a>
+    <a id="est-cta" href="#audit" style="display:inline-block; margin-top:1rem; background:#00cc66; color:#0d0c09; font-weight:700; font-size:0.88rem; padding:0.6rem 1.5rem; border-radius:8px; text-decoration:none;">Start free audit →</a>
   </div>
-
 </section>
 
 <style>
@@ -302,52 +322,31 @@ function setQ(q, val, btn) {
 }
 
 function updateEstimator() {
+  // FREE MONTH: all plans are free until June 8 2026
+  var name, desc;
   var files = estAnswers[1];
   var complexity = estAnswers[2];
   var multi = estAnswers[3];
 
-  var plan, name, desc, time, what, ada;
-
-  // BETA PROMO: 10 ADA pour TOUS les plans pendant 1 mois
-  plan = 'beta';
-  ada = 10;
-  name = '🔥 Beta — 10 ADA';
-  desc = 'Full audit — Layer 1 + AI analysis. Beta price for 1 month only.';
-  time = '⚡ ~30 seconds';
-  what = '21 detectors + Groq qwen3-32b';
-  
-  // Logique normale (pour après la promo) — gardée en commentaire:
-  // if (complexity === 'complex' || multi === 'yes' || files === '4+') {
-  //   plan='certified'; ada=279; name='Certified — 279 ADA';
-  // } else if (files === '2-3' || complexity === 'medium') {
-  //   plan='pro'; ada=179; name='Pro — 179 ADA';
-  // } else {
-  //   plan='beta'; ada=10; name='🔥 Beta — 10 ADA';
-  // }
+  if (complexity === 'complex' || multi === 'yes' || files === '4+') {
+    name = '🎁 FREE — Certified (normally 279 ADA)';
+    desc = 'Full audit + NFT certification. Free during Community Launch.';
+  } else if (files === '2-3' || complexity === 'medium') {
+    name = '🎁 FREE — Pro (normally 179 ADA)';
+    desc = 'Full AI analysis + multi-contract. Free during Community Launch.';
+  } else {
+    name = '🎁 FREE — Starter (normally 79 ADA)';
+    desc = 'Static + AI analysis. Free during Community Launch.';
+  }
 
   document.getElementById('est-plan-name').textContent = name;
   document.getElementById('est-plan-desc').textContent = desc;
-  document.getElementById('est-plan-time').textContent = time;
-  document.getElementById('est-plan-what').textContent = what;
-  document.getElementById('est-cta').onclick = function() { selectPlanFromEstimator(ada); };
-  document.getElementById('est-cta').textContent = 'Start with this plan →';
-}
-
-function selectPlanFromEstimator(ada) {
-  if (typeof selectPlan === 'function') {
-    var btns = document.querySelectorAll('.plan-opt');
-    btns.forEach(function(b) {
-      if (b.textContent.includes(ada)) {
-        selectPlan(b, ada);
-      }
-    });
-  }
-  selectedADA = ada;
-  var adaEl = document.getElementById('adaAmt');
-  if (adaEl) adaEl.textContent = ada;
+  document.getElementById('est-plan-time').textContent = '⚡ ~30 seconds';
+  document.getElementById('est-plan-what').textContent = '21 detectors + Groq qwen3-32b';
 }
 </script>
 
+<!-- AK-022 Feature -->
 <div style="background:rgba(245,166,35,0.07);border:1px solid rgba(245,166,35,0.3);border-radius:14px;padding:1.5rem 2rem;margin:0 2rem 2rem;max-width:960px;margin-left:auto;margin-right:auto;">
   <div style="display:flex;align-items:flex-start;gap:1.5rem;flex-wrap:wrap;">
     <div style="font-size:2rem;">⚡</div>
@@ -367,9 +366,10 @@ function selectPlanFromEstimator(ada) {
   </div>
 </div>
 
+<!-- FREE MONTH BANNER -->
 <div class="beta-banner" id="betaBanner">
-  <div class="beta-title">🔥 Beta Launch — Limited Time Offer <span class="beta-badge">BETA</span></div>
-  <div class="beta-sub" data-i18n="beta_sub">Try AikenGuard for only 10 ADA — full audit included. Offer ends in:</div>
+  <div class="beta-title">🎁 <span data-i18n="free_title">FREE FOR 1 MONTH — Community Launch</span> <span class="beta-badge">FREE</span></div>
+  <div class="beta-sub" data-i18n="free_sub">Full audit — Layer 1 + AI analysis. 100% free. Your feedback builds AikenGuard. Ends in:</div>
   <div class="timer">
     <div class="timer-block"><span class="timer-num" id="t-days">30</span><span class="timer-label">Days</span></div>
     <div class="timer-block"><span class="timer-num" id="t-hours">00</span><span class="timer-label">Hours</span></div>
@@ -378,37 +378,45 @@ function selectPlanFromEstimator(ada) {
   </div>
 </div>
 
+<!-- PRICING SECTION -->
 <section id="pricing">
-  <div class="section-title" data-i18n="pricing_title">Simple pricing in ADA</div>
-  <div class="section-sub" data-i18n="pricing_sub">Pay natively in ADA. No credit card. No account. No surprises.</div>
-  <div class="plan-beta">
-  <div style="display:flex;justify-content:space-between;align-items:center;">
-    <div>
-      <div class="plan-name">🔥 Beta <span class="beta-badge">LIMITED</span></div>
-      <div class="plan-price" style="font-size:2.5rem;font-weight:800;color:#f5a623;">10 <span style="font-size:1rem;color:#6a6050;">ADA</span></div>
-      <div class="plan-desc" data-i18n="beta_desc">Full audit — Couche 1 + AI analysis. Beta price for 1 month only.</div>
-    </div>
-    <div style="text-align:right;">
-      <div style="font-size:0.8rem;color:#6a6050;text-decoration:line-through;">79 ADA</div>
-      <div style="font-size:0.8rem;color:#f5a623;font-weight:700;">87% OFF</div>
-    </div>
-  </div>
-  <ul style="margin-top:1rem;">
-    <li data-i18n="beta_f1">Full static analysis — 21 detectors</li>
-    <li data-i18n="beta_f2">AI deep analysis — Groq qwen3-32b</li>
-    <li data-i18n="beta_f3">CIP-0052 PDF report</li>
-    <li data-i18n="beta_f4">Multi-contract risk detection</li>
-    <li data-i18n="beta_f5">Your feedback shapes AikenGuard</li>
-  </ul>
-</div>
+  <div class="section-title" data-i18n="pricing_title">Free during Community Launch</div>
+  <div class="section-sub" data-i18n="pricing_sub">No payment needed. No account. Just upload and get your report.</div>
 
-<div class="pricing">
+  <!-- Main free banner card -->
+  <div class="plan-beta">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div class="plan-name">🎁 Community Launch <span class="free-badge">FREE</span></div>
+        <div class="plan-price" style="font-size:2.5rem;font-weight:800;color:#00cc66;">FREE</div>
+        <div class="plan-desc" data-i18n="free_desc">Full audit — Layer 1 + AI analysis. Free for everyone until June 8, 2026.</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:0.8rem;color:#6a6050;text-decoration:line-through;">79 ADA</div>
+        <div style="font-size:0.8rem;color:#00cc66;font-weight:700;">100% OFF</div>
+      </div>
+    </div>
+    <ul style="margin-top:1rem;">
+      <li data-i18n="beta_f1">Full static analysis — 21 detectors</li>
+      <li data-i18n="beta_f2">AI deep analysis — Groq qwen3-32b</li>
+      <li data-i18n="beta_f3">CIP-0052 PDF report</li>
+      <li data-i18n="beta_f4">Multi-contract risk detection</li>
+      <li data-i18n="beta_f5">Your feedback shapes AikenGuard</li>
+    </ul>
+  </div>
+
+  <!-- After free month pricing preview -->
+  <div style="text-align:center;margin-bottom:1.25rem;">
+    <span style="font-size:0.82rem;color:#6a6050;" data-i18n="after_free">After June 8 — regular pricing:</span>
+  </div>
+
+  <div class="pricing">
     <div class="plan">
       <div class="plan-name" data-i18n="plan1_name">Starter</div>
       <div class="plan-price">
-        <span style="text-decoration:line-through;color:#6a6050;font-size:0.5em;font-weight:400;">79 ADA</span><br>
-        10 <span>ADA</span>
-        <div style="font-size:0.65rem;color:#f5a623;font-weight:600;margin-top:0.25rem;letter-spacing:0.5px;">🔥 BETA — 87% OFF</div>
+        <span style="color:#00cc66;font-size:0.65rem;font-weight:600;display:block;margin-bottom:0.25rem;">NOW FREE</span>
+        79 <span>ADA</span>
+        <div style="font-size:0.65rem;color:#6a6050;margin-top:0.25rem;" data-i18n="after_june">after June 8</div>
       </div>
       <div class="plan-desc" data-i18n="plan1_desc">Static analysis for simple contracts. Results in minutes.</div>
       <ul>
@@ -421,9 +429,9 @@ function selectPlanFromEstimator(ada) {
       <div class="pop-badge" data-i18n="popular">Most popular</div>
       <div class="plan-name">Pro</div>
       <div class="plan-price">
-        <span style="text-decoration:line-through;color:#6a6050;font-size:0.5em;font-weight:400;">179 ADA</span><br>
-        10 <span>ADA</span>
-        <div style="font-size:0.65rem;color:#f5a623;font-weight:600;margin-top:0.25rem;letter-spacing:0.5px;">🔥 BETA — 94% OFF</div>
+        <span style="color:#00cc66;font-size:0.65rem;font-weight:600;display:block;margin-bottom:0.25rem;">NOW FREE</span>
+        179 <span>ADA</span>
+        <div style="font-size:0.65rem;color:#6a6050;margin-top:0.25rem;" data-i18n="after_june">after June 8</div>
       </div>
       <div class="plan-desc" data-i18n="plan2_desc">Full AI analysis. Recommended before mainnet deployment.</div>
       <ul>
@@ -436,9 +444,9 @@ function selectPlanFromEstimator(ada) {
     <div class="plan">
       <div class="plan-name" data-i18n="plan3_name">Certified</div>
       <div class="plan-price">
-        <span style="text-decoration:line-through;color:#6a6050;font-size:0.5em;font-weight:400;">279 ADA</span><br>
-        10 <span>ADA</span>
-        <div style="font-size:0.65rem;color:#f5a623;font-weight:600;margin-top:0.25rem;letter-spacing:0.5px;">🔥 BETA — 96% OFF</div>
+        <span style="color:#00cc66;font-size:0.65rem;font-weight:600;display:block;margin-bottom:0.25rem;">NOW FREE</span>
+        279 <span>ADA</span>
+        <div style="font-size:0.65rem;color:#6a6050;margin-top:0.25rem;" data-i18n="after_june">after June 8</div>
       </div>
       <div class="plan-desc" data-i18n="plan3_desc">Full audit + on-chain NFT certification on Cardano.</div>
       <ul>
@@ -451,10 +459,11 @@ function selectPlanFromEstimator(ada) {
   </div>
 </section>
 
+<!-- AUDIT FORM — NO PAYMENT REQUIRED -->
 <div class="audit-wrap" id="audit">
   <div class="audit-box">
-    <h2 data-i18n="form_title">Secure my contracts now</h2>
-    <p data-i18n="form_sub">Upload your Aiken contracts, choose your plan, send ADA. Your PDF report arrives by email within 30 minutes.</p>
+    <h2 data-i18n="form_title">Get your free audit now</h2>
+    <p data-i18n="form_sub">Upload your Aiken contracts and enter your email. Your PDF report arrives within 30 minutes. No payment required during Community Launch.</p>
 
     <div class="form-group">
       <label class="form-label" data-i18n="form_email_label">📧 Your email — to receive the report</label>
@@ -472,20 +481,11 @@ function selectPlanFromEstimator(ada) {
       <div class="file-list" id="fileList"></div>
     </div>
 
-    <div class="form-group">
-      <label class="form-label" data-i18n="form_plan_label">🎯 Choose your plan</label>
-      <div class="plan-sel">
-        <div class="plan-opt active" onclick="selectPlan(this,10)"><div class="p" style="color:#f5a623;">10 ADA</div><div class="n">🔥 Beta</div></div>
-      <div class="plan-opt" onclick="selectPlan(this,10)"><div class="p"><span style="text-decoration:line-through;font-size:0.6em;color:#6a6050;">79</span> 10 ADA</div><div class="n">Starter (Beta)</div></div>
-        <div class="plan-opt" onclick="selectPlan(this,10)"><div class="p"><span style="text-decoration:line-through;font-size:0.6em;color:#6a6050;">179</span> 10 ADA</div><div class="n">Pro (Beta)</div></div>
-        <div class="plan-opt" onclick="selectPlan(this,10)"><div class="p"><span style="text-decoration:line-through;font-size:0.6em;color:#6a6050;">279</span> 10 ADA</div><div class="n" data-i18n="plan3_name">Certified (Beta)</div></div>
-      </div>
-    </div>
-
-    <div class="ada-box">
-      <h3><span data-i18n="send_label">Send</span> <span id="adaAmt">10</span> ADA <span data-i18n="send_to">to this address</span></h3>
-      <div class="ada-addr" onclick="copyAddr()" title="Click to copy">addr1qx3xa7e02hntguhplrl97ynp6l79pvkqkdcd2q4uwe3w2yn6z7pp6gdm3am8252g5rk2lp4a3ew9eryqss8te68n2x8qgmtg8l</div>
-      <p class="ada-hint" data-i18n="addr_hint">👆 Click to copy · Include your email in transaction metadata</p>
+    <!-- No plan selector needed — everything is free -->
+    <div class="free-notice">
+      <h3 data-i18n="free_notice_title">🎁 No payment required during Community Launch</h3>
+      <p data-i18n="free_notice_text">Upload your contracts + enter your email. That's it.</p>
+      <p style="opacity: 0.7; margin-top: 0.5rem;" data-i18n="free_notice_after">After June 8: plans start at 79 ADA</p>
     </div>
 
     <div class="trust-badges">
@@ -495,29 +495,31 @@ function selectPlanFromEstimator(ada) {
       <div class="trust-badge">🇨🇦 <span data-i18n="trust4">OVH Canada · HTTPS encrypted</span></div>
     </div>
 
-    <button class="submit-btn" onclick="submitAudit()" data-i18n="submit_btn">Secure my contracts now →</button>
+    <button class="submit-btn" onclick="submitAudit()" style="background:#00cc66;" data-i18n="submit_btn">Get my free audit now →</button>
     <div class="status" id="statusBox"><span id="statusMsg"></span></div>
   </div>
 </div>
 
 <footer>
   <p><span data-i18n="footer_built">Built for the Cardano community</span> · <a href="https://github.com/KipepeoWallet/AikenGuard">GitHub</a> · <a href="https://github.com/vacuumlabs/cardano-ctf">Vacuumlabs CTF</a> · audit@aikenguard.io</p>
+  <p style="margin-top:0.3rem;color:#6a6050;font-size:0.72rem;" data-i18n="footer_free">Community Launch: Free audits until June 8, 2026 · After: Starter 79 ADA · Pro 179 ADA · Certified 279 ADA</p>
   <p style="margin-top:0.5rem;">© 2026 AikenGuard · OVH Beauharnois, Canada · 🔒 SSL</p>
 </footer>
 
 <script>
 const T = {
   en: {
-    nav_how: "How it works", nav_pricing: "Pricing", nav_cta: "Get audit →", nav_quality: "Quality Guide",
-    beta_sub: "Try AikenGuard for only 10 ADA — full audit included. Offer ends in:",
-    beta_desc: "Full audit — Layer 1 + AI analysis. Beta price for 1 month only.",
+    nav_cta: "Get free audit →", nav_quality: "Quality Guide",
+    free_title: "FREE FOR 1 MONTH — Community Launch",
+    free_sub: "Full audit — Layer 1 + AI analysis. 100% free. Your feedback builds AikenGuard. Ends in:",
+    free_desc: "Full audit — Layer 1 + AI analysis. Free for everyone until June 8, 2026.",
     beta_f1: "Full static analysis — 21 detectors",
     beta_f2: "AI deep analysis — Groq qwen3-32b",
     beta_f3: "CIP-0052 PDF report",
     beta_f4: "Multi-contract risk detection",
     beta_f5: "Your feedback shapes AikenGuard",
     ak022_badge: "NEW — AK-022",
-    ak022_title: "The only tool that estimates your transaction costs",
+    ak022_title: "The only tool that estimates your execution costs",
     ak022_sub: "AikenGuard detects vulnerabilities AND estimates CPU/Memory execution costs before deployment. No more surprises on mainnet.",
     est_title: "Not sure which plan?",
     est_sub: "Answer 3 questions — we recommend the right plan for you.",
@@ -531,18 +533,15 @@ const T = {
     fear: "⚠️ A single undetected vulnerability can lock funds permanently on-chain.",
     mission_title: "Our mission",
     mission_text: "AikenGuard is a simple, fast and powerful tool that automatically analyzes your Aiken smart contracts — so you arrive at your human audit cleaner, smarter, and ready to deploy with confidence. We believe security should be accessible to every Cardano developer, not just those with $15,000 for a full manual audit.",
-    stat1: "Security & quality detectors",
-    ak022_title: "The only tool that estimates your execution costs",
-    ak022_sub: "AikenGuard detects vulnerabilities AND estimates CPU/Memory execution costs before deployment. No more surprises on mainnet.",
-    ak022_badge: "NEW — AK-022",
-    stat2: "CTF detection rate", stat3: "Analysis layers", stat4: "Compliant reports",
+    stat1: "Security & quality detectors", stat2: "CTF detection rate", stat3: "Analysis layers", stat4: "Compliant reports",
     how_title: "How it works", how_sub: "From upload to certified report in under 30 minutes.",
     step1_title: "Upload contracts", step1_text: "Upload your .ak files directly on this page. No email, no account needed.",
     step2_title: "Static analysis", step2_text: "15 detectors scan for eUTxO-specific vulnerabilities instantly.",
     step3_title: "AI deep analysis", step3_text: "Multi-contract risk detection across all your validators together.",
     step4_title: "PDF report", step4_text: "Receive your CIP-0052 compliant report by email. Ready for mainnet.",
-    pricing_title: "Simple pricing in ADA", pricing_sub: "Pay natively in ADA. No credit card. No account. No surprises.",
-    sample_report: "Download sample report →",
+    pricing_title: "Free during Community Launch", pricing_sub: "No payment needed. No account. Just upload and get your report.",
+    after_free: "After June 8 — regular pricing:",
+    after_june: "after June 8",
     plan1_name: "Starter", plan1_desc: "Static analysis for simple contracts. Results in minutes.",
     plan1_f1: "15 security detectors", plan1_f2: "JSON + PDF report", plan1_f3: "Up to 3 validators",
     popular: "Most popular",
@@ -550,28 +549,30 @@ const T = {
     plan2_f1: "Static + AI analysis", plan2_f2: "Multi-contract risks", plan2_f3: "CIP-0052 PDF report", plan2_f4: "GitHub audit badge",
     plan3_name: "Certified", plan3_desc: "Full audit + on-chain NFT certification on Cardano.",
     plan3_f1: "Everything in Pro", plan3_f2: "NFT on-chain", plan3_f3: "Verifiable forever", plan3_f4: "Priority support",
-    form_title: "Secure my contracts now", form_sub: "Upload your Aiken contracts, choose your plan, send ADA. Your PDF report arrives by email within 30 minutes.",
+    form_title: "Get your free audit now",
+    form_sub: "Upload your Aiken contracts and enter your email. Your PDF report arrives within 30 minutes. No payment required during Community Launch.",
     form_email_label: "📧 Your email — to receive the report", form_email_placeholder: "you@example.com",
     form_file_label: "📁 Upload your .ak files",
     drop_title: "Drop your .ak files here", drop_sub: "or click to browse your files",
-    form_plan_label: "🎯 Choose your plan",
-    send_label: "Send", send_to: "to this address",
-    addr_hint: "👆 Click to copy · Include your email in transaction metadata",
+    free_notice_title: "🎁 No payment required during Community Launch",
+    free_notice_text: "Upload your contracts + enter your email. That's it.",
+    free_notice_after: "After June 8: plans start at 79 ADA",
     trust1: "Contracts deleted after analysis", trust2: "Results in 30 minutes",
     trust3: "Validated on Vacuumlabs CTF", trust4: "OVH Canada · HTTPS encrypted",
-    submit_btn: "Secure my contracts now →",
+    submit_btn: "Get my free audit now →",
     footer_built: "Built for the Cardano community",
-    copied: "Address copied! ✅",
+    footer_free: "Community Launch: Free audits until June 8, 2026 · After: Starter 79 ADA · Pro 179 ADA · Certified 279 ADA",
     err_email: "Please enter a valid email address.",
     err_file: "Please upload at least one .ak file.",
     uploading: "⏳ Uploading your contracts...",
-    success: "✅ Contracts received! Now send {ada} ADA to the address above. Your PDF report will arrive at {email} within 30 minutes.",
+    success: "✅ Contracts received! Your free PDF report will arrive at {email} within 30 minutes.",
     err_conn: "❌ Connection error. Please try again."
   },
   fr: {
-    nav_how: "Comment ça marche", nav_pricing: "Tarifs", nav_cta: "Obtenir un audit →", nav_quality: "Guide qualité",
-    beta_sub: "Essayez AikenGuard pour seulement 10 ADA — audit complet inclus. Offre se termine dans :",
-    beta_desc: "Audit complet — Couche 1 + analyse IA. Prix bêta pour 1 mois seulement.",
+    nav_cta: "Audit gratuit →", nav_quality: "Guide qualité",
+    free_title: "GRATUIT PENDANT 1 MOIS — Lancement communautaire",
+    free_sub: "Audit complet — Couche 1 + Analyse IA. 100% gratuit. Vos retours construisent AikenGuard. Se termine dans :",
+    free_desc: "Audit complet — Couche 1 + analyse IA. Gratuit pour tous jusqu'au 8 juin 2026.",
     beta_f1: "Analyse statique complète — 21 détecteurs",
     beta_f2: "Analyse IA profonde — Groq qwen3-32b",
     beta_f3: "Rapport PDF CIP-0052",
@@ -598,8 +599,9 @@ const T = {
     step2_title: "Analyse statique", step2_text: "15 détecteurs scannent les vulnérabilités spécifiques à eUTxO instantanément.",
     step3_title: "Analyse IA profonde", step3_text: "Détection des risques multi-contrats sur tous vos validators ensemble.",
     step4_title: "Rapport PDF", step4_text: "Recevez votre rapport conforme CIP-0052 par email. Prêt pour le mainnet.",
-    pricing_title: "Tarifs simples en ADA", pricing_sub: "Payez en ADA. Pas de carte de crédit. Pas de compte. Pas de surprises.",
-    sample_report: "Télécharger un exemple de rapport →",
+    pricing_title: "Gratuit pendant le lancement communautaire", pricing_sub: "Aucun paiement requis. Aucun compte. Téléchargez et recevez votre rapport.",
+    after_free: "Après le 8 juin — tarifs réguliers :",
+    after_june: "après le 8 juin",
     plan1_name: "Débutant", plan1_desc: "Analyse statique pour contrats simples. Résultats en quelques minutes.",
     plan1_f1: "15 détecteurs de sécurité", plan1_f2: "Rapport JSON + PDF", plan1_f3: "Jusqu'à 3 validators",
     popular: "Le plus populaire",
@@ -607,28 +609,30 @@ const T = {
     plan2_f1: "Analyse statique + IA", plan2_f2: "Risques multi-contrats", plan2_f3: "Rapport PDF CIP-0052", plan2_f4: "Badge GitHub d'audit",
     plan3_name: "Certifié", plan3_desc: "Audit complet + certification NFT on-chain sur Cardano.",
     plan3_f1: "Tout ce qui est dans Pro", plan3_f2: "NFT on-chain", plan3_f3: "Vérifiable à vie", plan3_f4: "Support prioritaire",
-    form_title: "Sécuriser mes contrats maintenant", form_sub: "Téléchargez vos contrats Aiken, choisissez votre plan, envoyez des ADA. Votre rapport PDF arrive par email en 30 minutes.",
+    form_title: "Obtenez votre audit gratuit maintenant",
+    form_sub: "Téléchargez vos contrats Aiken et entrez votre email. Votre rapport PDF arrive en 30 minutes. Aucun paiement requis pendant le lancement communautaire.",
     form_email_label: "📧 Votre email — pour recevoir le rapport", form_email_placeholder: "vous@exemple.com",
     form_file_label: "📁 Téléchargez vos fichiers .ak",
     drop_title: "Déposez vos fichiers .ak ici", drop_sub: "ou cliquez pour parcourir vos fichiers",
-    form_plan_label: "🎯 Choisissez votre plan",
-    send_label: "Envoyez", send_to: "à cette adresse",
-    addr_hint: "👆 Cliquez pour copier · Incluez votre email dans les métadonnées de la transaction",
+    free_notice_title: "🎁 Aucun paiement requis pendant le lancement communautaire",
+    free_notice_text: "Téléchargez vos contrats + entrez votre email. C'est tout.",
+    free_notice_after: "Après le 8 juin : les plans commencent à 79 ADA",
     trust1: "Contrats supprimés après analyse", trust2: "Résultats en 30 minutes",
     trust3: "Validé sur le CTF Vacuumlabs", trust4: "OVH Canada · HTTPS chiffré",
-    submit_btn: "Sécuriser mes contrats maintenant →",
+    submit_btn: "Obtenir mon audit gratuit →",
     footer_built: "Construit pour la communauté Cardano",
-    copied: "Adresse copiée ! ✅",
+    footer_free: "Lancement communautaire : Audits gratuits jusqu'au 8 juin 2026 · Après : Débutant 79 ADA · Pro 179 ADA · Certifié 279 ADA",
     err_email: "Veuillez entrer une adresse email valide.",
     err_file: "Veuillez télécharger au moins un fichier .ak.",
     uploading: "⏳ Téléchargement de vos contrats...",
-    success: "✅ Contrats reçus ! Envoyez maintenant {ada} ADA à l'adresse ci-dessus. Votre rapport PDF arrivera à {email} dans 30 minutes.",
+    success: "✅ Contrats reçus ! Votre rapport PDF gratuit arrivera à {email} dans 30 minutes.",
     err_conn: "❌ Erreur de connexion. Veuillez réessayer."
   },
   es: {
-    nav_how: "Cómo funciona", nav_pricing: "Precios", nav_cta: "Obtener auditoría →", nav_quality: "Guía de calidad",
-    beta_sub: "Prueba AikenGuard por solo 10 ADA — auditoría completa incluida. La oferta termina en:",
-    beta_desc: "Auditoría completa — Capa 1 + análisis IA. Precio beta por 1 mes solamente.",
+    nav_cta: "Auditoría gratis →", nav_quality: "Guía de calidad",
+    free_title: "GRATIS POR 1 MES — Lanzamiento comunitario",
+    free_sub: "Auditoría completa — Capa 1 + Análisis IA. 100% gratis. Tu feedback construye AikenGuard. Termina en:",
+    free_desc: "Auditoría completa — Capa 1 + análisis IA. Gratis para todos hasta el 8 de junio 2026.",
     beta_f1: "Análisis estático completo — 21 detectores",
     beta_f2: "Análisis IA profundo — Groq qwen3-32b",
     beta_f3: "Informe PDF CIP-0052",
@@ -655,8 +659,9 @@ const T = {
     step2_title: "Análisis estático", step2_text: "15 detectores escanean vulnerabilidades específicas de eUTxO al instante.",
     step3_title: "Análisis IA profundo", step3_text: "Detección de riesgos multi-contrato en todos tus validators juntos.",
     step4_title: "Informe PDF", step4_text: "Recibe tu informe conforme CIP-0052 por email. Listo para mainnet.",
-    pricing_title: "Precios simples en ADA", pricing_sub: "Paga en ADA. Sin tarjeta de crédito. Sin cuenta. Sin sorpresas.",
-    sample_report: "Descargar informe de ejemplo →",
+    pricing_title: "Gratis durante el lanzamiento comunitario", pricing_sub: "Sin pago necesario. Sin cuenta. Sube y recibe tu informe.",
+    after_free: "Después del 8 de junio — precios regulares:",
+    after_june: "después del 8 de junio",
     plan1_name: "Inicial", plan1_desc: "Análisis estático para contratos simples. Resultados en minutos.",
     plan1_f1: "15 detectores de seguridad", plan1_f2: "Informe JSON + PDF", plan1_f3: "Hasta 3 validators",
     popular: "Más popular",
@@ -664,33 +669,33 @@ const T = {
     plan2_f1: "Análisis estático + IA", plan2_f2: "Riesgos multi-contrato", plan2_f3: "Informe PDF CIP-0052", plan2_f4: "Insignia de auditoría GitHub",
     plan3_name: "Certificado", plan3_desc: "Auditoría completa + certificación NFT on-chain en Cardano.",
     plan3_f1: "Todo lo del Plan Pro", plan3_f2: "NFT on-chain", plan3_f3: "Verificable para siempre", plan3_f4: "Soporte prioritario",
-    form_title: "Asegurar mis contratos ahora", form_sub: "Sube tus contratos Aiken, elige tu plan, envía ADA. Tu informe PDF llega por email en 30 minutos.",
+    form_title: "Obtén tu auditoría gratis ahora",
+    form_sub: "Sube tus contratos Aiken e ingresa tu email. Tu informe PDF llega en 30 minutos. Sin pago requerido durante el lanzamiento comunitario.",
     form_email_label: "📧 Tu email — para recibir el informe", form_email_placeholder: "tu@ejemplo.com",
     form_file_label: "📁 Sube tus archivos .ak",
     drop_title: "Suelta tus archivos .ak aquí", drop_sub: "o haz clic para buscar tus archivos",
-    form_plan_label: "🎯 Elige tu plan",
-    send_label: "Envía", send_to: "a esta dirección",
-    addr_hint: "👆 Clic para copiar · Incluye tu email en los metadatos de la transacción",
+    free_notice_title: "🎁 Sin pago requerido durante el lanzamiento comunitario",
+    free_notice_text: "Sube tus contratos + ingresa tu email. Eso es todo.",
+    free_notice_after: "Después del 8 de junio: planes desde 79 ADA",
     trust1: "Contratos eliminados tras el análisis", trust2: "Resultados en 30 minutos",
     trust3: "Validado en Vacuumlabs CTF", trust4: "OVH Canadá · HTTPS cifrado",
-    submit_btn: "Asegurar mis contratos ahora →",
+    submit_btn: "Obtener mi auditoría gratis →",
     footer_built: "Construido para la comunidad Cardano",
-    copied: "¡Dirección copiada! ✅",
+    footer_free: "Lanzamiento comunitario: Auditorías gratis hasta el 8 de junio 2026 · Después: Inicial 79 ADA · Pro 179 ADA · Certificado 279 ADA",
     err_email: "Por favor ingresa un email válido.",
     err_file: "Por favor sube al menos un archivo .ak.",
     uploading: "⏳ Subiendo tus contratos...",
-    success: "✅ ¡Contratos recibidos! Ahora envía {ada} ADA a la dirección de arriba. Tu informe PDF llegará a {email} en 30 minutos.",
+    success: "✅ ¡Contratos recibidos! Tu informe PDF gratuito llegará a {email} en 30 minutos.",
     err_conn: "❌ Error de conexión. Por favor intenta de nuevo."
   }
 };
 
 let currentLang = 'en';
-let selectedADA = 10;
 let selectedFiles = [];
 
-// Timer Beta
+// Timer — countdown to June 8, 2026
 function updateTimer() {
-  const end = new Date("2026-06-01T00:00:00").getTime();
+  const end = new Date("2026-06-08T23:59:59").getTime();
   const now = new Date().getTime();
   const diff = end - now;
   if (diff <= 0) {
@@ -710,7 +715,6 @@ updateTimer();
 setInterval(updateTimer, 1000);
 
 function setLang(lang) {
-  // Mettre à jour le lien Quality Guide selon la langue
   const qualityLinks = {
     'en': 'https://github.com/KipepeoWallet/AikenGuard/blob/main/QUALITY_GUIDE.md',
     'fr': 'https://github.com/KipepeoWallet/AikenGuard/blob/main/QUALITY_GUIDE_FR.md',
@@ -739,13 +743,6 @@ function removeFile(name, el) {
   el.remove();
 }
 
-function selectPlan(el, amount) {
-  document.querySelectorAll('.plan-opt').forEach(p => p.classList.remove('active'));
-  el.classList.add('active');
-  selectedADA = amount;
-  document.getElementById('adaAmt').textContent = amount;
-}
-
 const dropZone = document.getElementById('dropZone');
 const fileInput = document.getElementById('fileInput');
 dropZone.addEventListener('click', () => fileInput.click());
@@ -758,7 +755,6 @@ function handleFiles(files) {
   const list = document.getElementById('fileList');
   for (let f of files) {
     if (f.name.endsWith('.ak')) {
-      // Eviter les doublons
       if (selectedFiles.find(sf => sf.name === f.name)) continue;
       selectedFiles.push(f);
       const item = document.createElement('div');
@@ -770,11 +766,6 @@ function handleFiles(files) {
   }
 }
 
-function copyAddr() {
-  navigator.clipboard.writeText('addr1qx3xa7e02hntguhplrl97ynp6l79pvkqkdcd2q4uwe3w2yn6z7pp6gdm3am8252g5rk2lp4a3ew9eryqss8te68n2x8qgmtg8l');
-  alert(T[currentLang].copied);
-}
-
 async function submitAudit() {
   const t = T[currentLang];
   const email = document.getElementById('clientEmail').value;
@@ -782,15 +773,15 @@ async function submitAudit() {
   if (selectedFiles.length === 0) { showStatus(t.err_file, true); return; }
   const formData = new FormData();
   formData.append('email', email);
-    formData.append('lang', currentLang || 'en');
-  formData.append('plan', selectedADA.toString());
+  formData.append('lang', currentLang || 'en');
+  formData.append('plan', 'free');
   for (let f of selectedFiles) formData.append('files', f);
   showStatus(t.uploading, false);
   try {
     const res = await fetch('/submit', { method: 'POST', body: formData });
     const result = await res.json();
     if (res.ok) {
-      showStatus(t.success.replace('{ada}', selectedADA).replace('{email}', email), false);
+      showStatus(t.success.replace('{email}', email), false);
     } else {
       showStatus('❌ ' + (result.detail || 'Error'), true);
     }
@@ -807,7 +798,6 @@ function showStatus(msg, isErr) {
   txt.textContent = msg;
 }
 
-// Détecter la langue au chargement
 const saved = localStorage.getItem('lang') || navigator.language.split('-')[0];
 setLang(['en','fr','es'].includes(saved) ? saved : 'en');
 </script>
